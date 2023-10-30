@@ -31,7 +31,6 @@
                 canvaInitialization(X_QUANTITY, parpadeante);
                 generateSquares();
                 document.addEventListener('keydown', e => {if (e.which === 13) generateSquares()})
-                document.querySelector('.floattingButton').addEventListener('click', generateSquares)
 
                 window.addEventListener('resize', () => actualizarCanva(X_QUANTITY, parpadeante));
                 break;
@@ -46,6 +45,8 @@
             botonFlotante.innerText = "Generar colores"
         
             document.body.appendChild(botonFlotante);
+            botonFlotante.addEventListener('click', generateSquares)
+
 
             let screenWidth = window.innerWidth, 
                     screenHeight = window.innerHeight,
@@ -68,10 +69,10 @@
             alert("Carga completa, (Presione ENTER para generar mas colores)");
         }
 
-        function actualizarCanva(X_QUANTITY = 10) {
+        function actualizarCanva(X_QUANTITY = 10, parpadeante) {
             clearTimeout(timer)
             timer = setTimeout(() => {
-                canvaInitialization(X_QUANTITY);
+                canvaInitialization(X_QUANTITY, parpadeante);
                 generateSquares();
             }, 1000)
         }
