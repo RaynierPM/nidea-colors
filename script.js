@@ -50,7 +50,7 @@
 
             let screenWidth = window.innerWidth, 
                     screenHeight = window.innerHeight,
-                    SquareSideSize = Math.floor(screenWidth / X_QUANTITY),
+                    SquareSideSize = (screenWidth / X_QUANTITY),
                     Y_QUANTITY = screenHeight / SquareSideSize;
                 
             for (let i = 0; i < (X_QUANTITY * Y_QUANTITY); i++) {
@@ -77,7 +77,7 @@
             }, 1000)
         }
     
-        function generateSquares(event) {
+        function generateSquares() {
             document.querySelectorAll('div')
                 .forEach(elemento => randomBg(elemento))
         }
