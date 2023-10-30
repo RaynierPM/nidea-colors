@@ -49,7 +49,7 @@
                 document.body.appendChild(node)
             }
 
-            alert("Carga completa");
+            alert("Carga completa, (Presione ENTER para generar mas colores)");
         }
 
         function actualizarCanva() {
