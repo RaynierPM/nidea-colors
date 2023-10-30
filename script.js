@@ -6,7 +6,10 @@
         document.body.style.flexWrap = 'wrap';
         document.body.style.margin = '0';
         document.body.style.height = '100vh';
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflowY = 'hidden'
+
+        var timer;
+        
         function main() {
             while (true) {
             
@@ -22,17 +25,28 @@
                     alert('Inserte un numero valido');
                     continue;
                 }
-                canvaInitialization(X_QUANTITY);
+
+                const parpadeante = confirm("¿Desea el efecto de parpadeo?")
+                
+                canvaInitialization(X_QUANTITY, parpadeante);
                 generateSquares();
-                document.addEventListener('keydown', generateSquares)
-                window.addEventListener('resize', () => actualizarCanva(X_QUANTITY));
+                document.addEventListener('keydown', e => {if (e.which === 13) generateSquares()})
+                document.querySelector('.floattingButton').addEventListener('click', generateSquares)
+
+                window.addEventListener('resize', () => actualizarCanva(X_QUANTITY, parpadeante));
                 break;
             }
         }
             
-        function canvaInitialization(X_QUANTITY = 10) {
+        function canvaInitialization(X_QUANTITY = 10, parpadeante = false) {
             document.body.innerHTML = '';
+
+            let botonFlotante = document.createElement("span");
+            botonFlotante.classList.add("floattingButton")
+            botonFlotante.innerText = "Generar colores"
         
+            document.body.appendChild(botonFlotante);
+
             let screenWidth = window.innerWidth, 
                     screenHeight = window.innerHeight,
                     SquareSideSize = Math.floor(screenWidth / X_QUANTITY),
@@ -46,27 +60,25 @@
                 node.style.width = SquareSideSize+'px';
                 node.style.height = SquareSideSize+'px';
 
+                if (parpadeante) setInterval(() => {randomBg(node)}, (100 + Math.floor(Math.random() * 1500)))
+
                 document.body.appendChild(node)
             }
 
             alert("Carga completa, (Presione ENTER para generar mas colores)");
         }
 
-        function actualizarCanva() {
-            let timer;
+        function actualizarCanva(X_QUANTITY = 10) {
             clearTimeout(timer)
             timer = setTimeout(() => {
-                canvaInitialization();
-            }, 500)
+                canvaInitialization(X_QUANTITY);
+                generateSquares();
+            }, 1000)
         }
     
         function generateSquares(event) {
-    
-            if (!event || event.which === 13) {
-                document.querySelectorAll('div')
-                    .forEach(elemento => randomBg(elemento))
-            }
-            
+            document.querySelectorAll('div')
+                .forEach(elemento => randomBg(elemento))
         }
     
         async function randomBg(element) {
