@@ -1,92 +1,69 @@
 (() => {
     document.addEventListener('DOMContentLoaded', () => {
 
-        // Document body inicialization
-        document.body.style.display = 'flex';
-        document.body.style.flexWrap = 'wrap';
-        document.body.style.margin = '0';
-        document.body.style.height = '100vh';
-        document.body.style.overflowY = 'hidden'
-
-        var timer;
+        var mainPalette;
+        const history = [];
         
         function main() {
-            while (true) {
-            
-                const response = prompt("Inserte el numero de cuadros en horizontal"),
-                    X_QUANTITY = Number(response);
+            document.querySelector('#generator').addEventListener('click', generatePalette)
+        }
 
-                if (!response) {
-                    alert("Que pena que no quiera generar nada, si cambia de opinion, recargue la pagina")
-                    break;
-                }
-
-                if (isNaN(X_QUANTITY)) {
-                    alert('Inserte un numero valido');
-                    continue;
-                }
-
-                const parpadeante = confirm("¿Desea el efecto de parpadeo?")
-                
-                canvaInitialization(X_QUANTITY, parpadeante);
-                generateSquares();
-                document.addEventListener('keydown', e => {if (e.which === 13) generateSquares()})
-
-                window.addEventListener('resize', () => actualizarCanva(X_QUANTITY, parpadeante));
-                break;
+        class Palette {
+            constructor (lenght = 4, mode = 'random') {
+                for (let i = 0; i < lenght; i++) 
+                    this.colores.push(new Color(this.randomColor()));
             }
+
+            colores = [];
+
+            randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16);
+
+            generateHtmlPalette(destinationElement) {
+                destinationElement.innerHTML = '';
+                destinationElement.classList.add('d-flex')
+
+                this.colores.forEach(color => {
+                    let colorDiv = document.createElement('div');
+                    
+                    if (window.innerWidth <= 768) {
+                        colorDiv.style.width = (100/this.colores.length)*2 + '%';
+                        colorDiv.style.height = '50%';                    
+
+                    }else {
+                        colorDiv.style.width = (100/this.colores.length) + '%';
+                        colorDiv.style.height = '100%';                    
+
+                    }
+
+                    colorDiv.style.backgroundColor = color.getCssColor();
+
+                    destinationElement.appendChild(colorDiv);
+                });
+            }
+
+        }
+
+        class Color {
+            constructor (color) {
+                this.hexColor = color;
+            }
+
+            hexColor;
+
+            getCssColor = () => `#${this.hexColor}`;
         }
             
-        function canvaInitialization(X_QUANTITY = 10, parpadeante = false) {
-            document.body.innerHTML = '';
 
-            let botonFlotante = document.createElement("span");
-            botonFlotante.classList.add("floattingButton")
-            botonFlotante.innerText = "Generar colores"
+        function generatePalette(event) {
+            let canva = document.querySelector('.mainCanva');
+            canva.classList.remove('d-none')
+            mainPalette = new Palette();
+
+            mainPalette.generateHtmlPalette(canva)
+
+        }
         
-            document.body.appendChild(botonFlotante);
-            botonFlotante.addEventListener('click', generateSquares)
 
-
-            let screenWidth = window.innerWidth, 
-                    screenHeight = window.innerHeight,
-                    SquareSideSize = (screenWidth / X_QUANTITY),
-                    Y_QUANTITY = screenHeight / SquareSideSize;
-                
-            for (let i = 0; i < (X_QUANTITY * Y_QUANTITY); i++) {
-                // document.body.innerHTML += `<div
-                //     style='width: ${SquareSideSize}px; 
-                //     height: ${SquareSideSize}px'> </div>`;
-                let node = document.createElement('div');
-                node.style.width = SquareSideSize+'px';
-                node.style.height = SquareSideSize+'px';
-
-                if (parpadeante) setInterval(() => {randomBg(node)}, (100 + Math.floor(Math.random() * 1500)))
-
-                document.body.appendChild(node)
-            }
-
-            alert("Carga completa, (Presione ENTER para generar mas colores)");
-        }
-
-        function actualizarCanva(X_QUANTITY = 10, parpadeante) {
-            clearTimeout(timer)
-            timer = setTimeout(() => {
-                canvaInitialization(X_QUANTITY, parpadeante);
-                generateSquares();
-            }, 1000)
-        }
-    
-        function generateSquares() {
-            document.querySelectorAll('div')
-                .forEach(elemento => randomBg(elemento))
-        }
-    
-        async function randomBg(element) {
-            let number = Math.round(Math.random() * parseInt('FFFFFF', 16));
-            element.style.backgroundColor = '#' + number.toString(16);
-            
-        }
 
 
         main();

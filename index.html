@@ -4,37 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>random colors</title>
-
-    <style>
-        * {margin: 0; padding: 0; box-sizing: border-box;}
-        .floattingButton {
-            display: block;
-            /* width: 25px; */
-            height: 25px;
-            padding: 15px;
-
-            border-radius: 25px;
-            background-color: black;
-            color: white;
-            
-            position: absolute;
-
-            left: 10px;
-            bottom: 10px;
-
-            font-size: 1.5em;
-            font-weight: bold;
-
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
+    <header>
+        <div class="banner p-3 mb-2">
+            <h1>Nidea-colorcito</h1>
+        </div>
+    </header>
+    
+    <main class="p-2">
+        <section class="paleta p-2 rounded d-flex flex-column">
+            <h2>Generador de paletas de colores aleatorias</h2>
+
+            <button class="mx-auto btn btn-secondary px-4" id="generator">
+                Generar
+            </button>
+
+            <div class="mainCanva canva">
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
 
 
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+
 </body>
 </html>

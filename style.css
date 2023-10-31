@@ -1,0 +1,67 @@
+/* Globals */
+* {margin: 0; padding: 0; box-sizing: border-box;}
+
+:root {
+    --main: #272829;
+    --secondary: #D8D9DA;
+    --tertiary: #61677A;
+    --bg: #FFF6E0;
+
+    --titleFont: 'pacifico';
+}
+
+h1, h2, h3 {
+    font-family: var(--titleFont);
+}
+
+
+.floattingButton {
+    display: block;
+    /* width: 25px; */
+    height: 25px;
+    padding: 15px;
+
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    
+    position: absolute;
+
+    left: 10px;
+    bottom: 10px;
+
+    font-size: 1.5em;
+    font-weight: bold;
+
+}
+
+body {background-color: var(--white);}
+
+@font-face {
+    font-family: 'nidea';
+    src: url('/src/Pacifico-Regular.ttf');
+}
+
+.canva {
+    width: 100%;
+    border-radius: 25px;
+    display: none;
+    margin-top: 7px;
+    height: 300px;
+
+    flex-wrap: wrap ;
+}
+
+/* Header */
+header {
+    background-color: var(--main);
+    color: #fff;
+}
+
+
+/* Main */
+
+section {
+    background-color: var(--secondary);
+}
+
