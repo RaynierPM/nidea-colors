@@ -4,8 +4,11 @@
         var mainPalette;
         const history = [];
         
+        const toast = new bootstrap.Toast(document.querySelector('#copyToast'))
+
         function main() {
             document.querySelector('#generator').addEventListener('click', generatePalette)
+            document.querySelector('.mainCanva').addEventListener('click', copyColorCode)
         }
 
         class Palette {
@@ -16,7 +19,7 @@
 
             colores = [];
 
-            randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16);
+            randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16).padStart(6, 0);
 
             generateHtmlPalette(destinationElement) {
                 destinationElement.innerHTML = '';
@@ -24,6 +27,7 @@
 
                 this.colores.forEach(color => {
                     let colorDiv = document.createElement('div');
+                    colorDiv.classList.add('paletteColor')
                     
                     if (window.innerWidth <= 768) {
                         colorDiv.style.width = (100/this.colores.length)*2 + '%';
@@ -36,6 +40,14 @@
                     }
 
                     colorDiv.style.backgroundColor = color.getCssColor();
+                    
+                    // ColorName tag
+                    let colorName = document.createElement('span');
+                    colorName.classList.add('colorName')
+
+                    colorName.innerText = color.getCssColor();
+
+                    colorDiv.appendChild(colorName)
 
                     destinationElement.appendChild(colorDiv);
                 });
@@ -60,8 +72,35 @@
             mainPalette = new Palette();
 
             mainPalette.generateHtmlPalette(canva)
-
         }
+
+        function copyColorCode(event) {
+            if (! event.target.classList.contains('colorName')) return;
+
+            let colorTag = event.target,
+                range = document.createRange(),
+                selection = window.getSelection();
+
+            range.selectNode(colorTag)
+
+            selection.removeAllRanges();
+            selection.addRange(range)
+
+            // give color to ToastColorExample
+            document.querySelector('#colorcitoExample').style.backgroundColor = colorTag.innerText
+
+            try {
+                document.execCommand("copy");
+                toast.show()
+
+            }catch(err) {
+                console.log(err)
+
+            }
+
+            selection.removeAllRanges();
+            
+        } 
         
 
 

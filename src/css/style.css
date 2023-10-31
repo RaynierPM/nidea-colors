@@ -39,7 +39,7 @@ body {background-color: var(--white);}
 
 @font-face {
     font-family: 'nidea';
-    src: url('/src/Pacifico-Regular.ttf');
+    src: url('/src/fonts/Pacifico-Regular.ttf');
 }
 
 .canva {
@@ -47,10 +47,41 @@ body {background-color: var(--white);}
     border-radius: 25px;
     display: none;
     margin-top: 7px;
-    height: 300px;
+    height: 200px;
 
     flex-wrap: wrap ;
 }
+
+.paletteColor {
+    position: relative;
+
+
+}
+
+    .paletteColor .colorName {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+
+        background-color: #0007;
+        color: var(--secondary);
+
+        border-radius: 5px;
+        padding: 2px 5px;
+
+        cursor: pointer;
+
+        font-weight: bold;
+
+        transition: background-color .4s ease, color .4s ease .1s;
+        
+    }
+
+    .colorName:hover {
+        background-color: #000c;
+        color: var(--tertiary)
+
+    }
 
 /* Header */
 header {
