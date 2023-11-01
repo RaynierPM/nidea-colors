@@ -20,6 +20,7 @@
 
             document.querySelector('#limpiarHistorial').addEventListener('click', limpiarHistorial);
             historySection.addEventListener('click', swapToMain)
+            historySection.addEventListener('click', deleteHistoryLog)
             fullScreenButton.addEventListener('click', toggleFullScreen);
             fullScreenModal.addEventListener('click', toggleFullScreen);
 
@@ -59,9 +60,14 @@
                     
                     // ColorName tag
                     if (withTags) this.addColorTag(color.getCssColor(), colorDiv)
+
+                    
                     destinationElement.appendChild(colorDiv);
                     destinationElement.setAttribute('paletteId', this.id)
                 });
+
+                // add deleteButton to history-Log
+                if (!withTags) this.addDeleteButton(destinationElement);
             }
 
             addColorTag(colortag, destinationElement) {
@@ -71,6 +77,22 @@
                 colorName.innerText = colortag;
 
                 destinationElement.appendChild(colorName)
+            }
+
+            addDeleteButton(destinationElement) {
+                let deleteButton = document.createElement('i')
+                deleteButton.classList.add('bi', 'bi-x-lg', 'position-absolute', 'top-0', 'end-0', 'rounded-circle', 'd-flex', 'justify-content-center', 'align-items-center', 'p-1')
+                deleteButton.style.backgroundColor = '#0003';
+                deleteButton.style.color = 'white';
+                deleteButton.style.fontWeight = 'bold';
+
+                deleteButton.style.width = '30px'
+                deleteButton.style.height = '30px'
+
+
+                deleteButton.id = 'eliminarPaleta'
+
+                destinationElement.appendChild(deleteButton);
             }
 
         }
@@ -146,7 +168,10 @@
         }
         
         function swapToMain(event) {
-            if (!event.target.parentElement.classList.contains('canva')) return;
+            console.log(event.target.id === "eliminarPaleta")
+            console.log(!event.target.parentElement.classList.contains('canva'))
+            if (!event.target.parentElement.classList.contains('canva') 
+                || event.target.id === 'eliminarPaleta') return;
 
             let canva = event.target.parentElement,
                 id = Number(canva.getAttribute('paletteId')),
@@ -169,6 +194,16 @@
             if (fullScreenModal.classList.contains('d-flex')) mainPalette.generateHtmlPalette(fullScreenCanva, false)
         }
 
+        function deleteHistoryLog(event = document.querySelector()) {
+            if (event.target.id !== 'eliminarPaleta') return;
+            let paleta = event.target.parentElement,
+                id = Number(paleta.getAttribute('paletteId'))
+
+            // Delete from history
+            history.slice(history.indexOf(history.find(palette => palette.id === id)))
+
+            paleta.parentElement.removeChild(paleta);
+        }
 
 
         main();

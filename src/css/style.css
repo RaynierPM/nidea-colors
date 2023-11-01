@@ -2,7 +2,7 @@
 * {margin: 0; padding: 0; box-sizing: border-box;}
 
 :root {
-    --main: #272829;
+    --main: #826854;
     --secondary: #D8D9DA;
     --tertiary: #61677A;
     --bg: #FFF6E0;
@@ -52,6 +52,7 @@ body {background-color: var(--white);}
     flex-wrap: wrap;
     /* justify-content: center; */
     overflow: hidden;
+    position: relative;
 }
 
 .historyCanva {
