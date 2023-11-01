@@ -22,9 +22,13 @@
         <section class="paleta p-3 rounded d-flex flex-column">
             <h2>Generador de paletas de colores aleatorias</h2>
 
-            <button class="mx-auto btn btn-secondary px-4" id="generator">
-                Generar
-            </button>
+            <div class="w-100 d-flex">
+                <input type="number" id="cantidad" value="4" class="form-control" placeholder="Ej: 10">
+    
+                <button class="mx-auto btn btn-secondary px-4" id="generator">
+                    Generar
+                </button>
+            </div>
             <div class="container position-relative" style="height: 200px;">
                 <div class="mainCanva canva rounded overflow-hidden"></div>
                 <i id="expandirCanva" 

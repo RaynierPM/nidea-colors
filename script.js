@@ -5,13 +5,13 @@
         var id = 0;
         const history = [];
         
-        const toast = new bootstrap.Toast(document.querySelector('#copyToast'))
-
-        const historySection = document.querySelector('.historial')
-        const mainCanva = document.querySelector('.mainCanva')
-        const fullScreenButton = document.querySelector('#expandirCanva'),
+        const toast = new bootstrap.Toast(document.querySelector('#copyToast')),
+            historySection = document.querySelector('.historial'),
+            mainCanva = document.querySelector('.mainCanva'),
+            fullScreenButton = document.querySelector('#expandirCanva'),
             fullScreenModal = document.querySelector('.fullScreen'),
-            fullScreenCanva = document.querySelector('.fullScreen > .canva')
+            fullScreenCanva = document.querySelector('.fullScreen > .canva'),
+            quantityInput = document.querySelector('#cantidad')
         
 
         function main() {
@@ -46,12 +46,13 @@
                 destinationElement.innerHTML = '';
                 destinationElement.classList.add('d-flex')
 
+
                 this.colores.forEach(color => {
                     let colorDiv = document.createElement('div');
                     colorDiv.classList.add('paletteColor')
                     
 
-                    colorDiv.style.width = (100/this.colores.length)*2 + '%';
+                    colorDiv.style.width = (100/ Math.ceil(this.colores.length/2)) + '%';
                     colorDiv.style.height = '50%';  
 
                     colorDiv.style.backgroundColor = color.getCssColor();
@@ -104,7 +105,8 @@
                 historySection.appendChild(newHistoryCanva)
 
             }
-            mainPalette = new Palette();
+
+            mainPalette = new Palette(Number(quantityInput.value));
             generatePalette();
 
         }
