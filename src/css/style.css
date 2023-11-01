@@ -44,12 +44,33 @@ body {background-color: var(--white);}
 
 .canva {
     width: 100%;
-    border-radius: 25px;
+    border-radius: 15px;
     display: none;
     margin-top: 7px;
-    height: 200px;
+    height: 100%;
 
-    flex-wrap: wrap ;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.historyCanva {
+    width: 48%;
+    height: 100px;
+
+    margin: 3px 0;
+
+    transition: transform .3s ease;
+    cursor: pointer;
+}
+
+.historyCanva:hover {
+    transform: scale(1.05);
+}
+
+@media only screen and (min-width: 786px) {
+    .historyCanva {
+        width: 30%;
+    }
 }
 
 .paletteColor {
@@ -91,8 +112,31 @@ header {
 
 
 /* Main */
+main {
+    display: flex;
+    justify-content: space-evenly;
+
+    flex-wrap: wrap;
+}
 
 section {
     background-color: var(--secondary);
+    width: 100%;
 }
 
+@media only screen and (min-width: 786px) {
+    section {
+        width: 48%;
+    }   
+}
+
+
+
+.historial {
+    max-height: 40vh;
+    overflow-y: scroll;
+}
+
+    #limpiarHistorial {
+        cursor: pointer;
+    }

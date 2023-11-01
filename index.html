@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>random colors</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <link rel="stylesheet" href="src/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
     
@@ -17,21 +19,31 @@
     </header>
     
     <main class="p-2">
-        <section class="paleta p-2 rounded d-flex flex-column">
+        <section class="paleta p-3 rounded d-flex flex-column">
             <h2>Generador de paletas de colores aleatorias</h2>
 
             <button class="mx-auto btn btn-secondary px-4" id="generator">
                 Generar
             </button>
+            <div class="container" style="height: 200px;">
+                <div class="mainCanva canva rounded overflow-hidden"></div>
+            </div>
+        </section>
 
-            <div class="mainCanva canva rounded overflow-hidden">
+
+        <section class="p-3 rounded d-flex flex-column mt-2">
+            <h2>Historial <i class="bi bi-trash" id="limpiarHistorial"></i> </h2>
+
+            <div class="historial d-flex flex-wrap w-100 justify-content-evenly">
 
             </div>
         </section>
     </main>
 
     <footer>
-
+        <div class="W-100 d-flex justify-content-center">
+            <p>&copy; Raynier Perez Minyety - 2023</p>
+        </div>
     </footer>
 
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">

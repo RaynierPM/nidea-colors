@@ -6,9 +6,13 @@
         
         const toast = new bootstrap.Toast(document.querySelector('#copyToast'))
 
+        const historySection = document.querySelector('.historial')
+
         function main() {
-            document.querySelector('#generator').addEventListener('click', generatePalette)
+            document.querySelector('#generator').addEventListener('click', drawPalettes)
             document.querySelector('.mainCanva').addEventListener('click', copyColorCode)
+
+            document.querySelector('#limpiarHistorial').addEventListener('click', limpiarHistorial);
         }
 
         class Palette {
@@ -21,7 +25,11 @@
 
             randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16).padStart(6, 0);
 
-            generateHtmlPalette(destinationElement) {
+            generateHtmlPalette(destinationElement, withTags = true) {
+
+                // The destinationElement must has de class 'canva'
+                if  (!destinationElement.classList.contains('canva')) return;
+
                 destinationElement.innerHTML = '';
                 destinationElement.classList.add('d-flex')
 
@@ -42,15 +50,18 @@
                     colorDiv.style.backgroundColor = color.getCssColor();
                     
                     // ColorName tag
-                    let colorName = document.createElement('span');
-                    colorName.classList.add('colorName')
-
-                    colorName.innerText = color.getCssColor();
-
-                    colorDiv.appendChild(colorName)
-
+                    if (withTags) this.addColorTag(color.getCssColor(), colorDiv)
                     destinationElement.appendChild(colorDiv);
                 });
+            }
+
+            addColorTag(colortag, destinationElement) {
+                let colorName = document.createElement('span');
+                colorName.classList.add('colorName')
+
+                colorName.innerText = colortag;
+
+                destinationElement.appendChild(colorName)
             }
 
         }
@@ -66,12 +77,32 @@
         }
             
 
-        function generatePalette(event) {
-            let canva = document.querySelector('.mainCanva');
-            canva.classList.remove('d-none')
-            mainPalette = new Palette();
+        function generatePalette(palette = mainPalette, destinationElement = document.querySelector('.mainCanva')) {
+            destinationElement.classList.remove('d-none')
+            
+            palette.generateHtmlPalette(destinationElement, destinationElement.classList.contains('mainCanva'))
+        }
 
-            mainPalette.generateHtmlPalette(canva)
+        function drawPalettes() {
+            if (mainPalette) {
+                history.push(mainPalette);
+                let newHistoryCanva = document.createElement('div'),
+                    newCanvaToHistory = document.createElement('div')
+
+                newHistoryCanva.classList.add('historyCanva')
+                newCanvaToHistory.classList.add(['canva'])
+
+                newHistoryCanva.appendChild(newCanvaToHistory);
+
+                generatePalette(mainPalette, newCanvaToHistory)
+
+                // agregar al template
+                historySection.appendChild(newHistoryCanva)
+
+            }
+            mainPalette = new Palette();
+            generatePalette();
+
         }
 
         function copyColorCode(event) {
@@ -101,6 +132,12 @@
             selection.removeAllRanges();
             
         } 
+
+
+        function limpiarHistorial() {
+            history.slice(0, 0)
+            historySection.innerHTML = '';
+        }
         
 
 
