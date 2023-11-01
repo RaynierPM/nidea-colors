@@ -2,26 +2,34 @@
     document.addEventListener('DOMContentLoaded', () => {
 
         var mainPalette;
+        var id = 0;
         const history = [];
         
         const toast = new bootstrap.Toast(document.querySelector('#copyToast'))
 
         const historySection = document.querySelector('.historial')
+        const mainCanva = document.querySelector('.mainCanva')
+        
 
         function main() {
             document.querySelector('#generator').addEventListener('click', drawPalettes)
-            document.querySelector('.mainCanva').addEventListener('click', copyColorCode)
+            mainCanva.addEventListener('click', copyColorCode)
 
             document.querySelector('#limpiarHistorial').addEventListener('click', limpiarHistorial);
+            historySection.addEventListener('click', swapToMain)
+
         }
 
         class Palette {
             constructor (lenght = 4, mode = 'random') {
                 for (let i = 0; i < lenght; i++) 
                     this.colores.push(new Color(this.randomColor()));
+
+                this.id = id++;
             }
 
             colores = [];
+            id;
 
             randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16).padStart(6, 0);
 
@@ -52,6 +60,7 @@
                     // ColorName tag
                     if (withTags) this.addColorTag(color.getCssColor(), colorDiv)
                     destinationElement.appendChild(colorDiv);
+                    destinationElement.setAttribute('paletteId', this.id)
                 });
             }
 
@@ -77,7 +86,7 @@
         }
             
 
-        function generatePalette(palette = mainPalette, destinationElement = document.querySelector('.mainCanva')) {
+        function generatePalette(palette = mainPalette, destinationElement = mainCanva) {
             destinationElement.classList.remove('d-none')
             
             palette.generateHtmlPalette(destinationElement, destinationElement.classList.contains('mainCanva'))
@@ -86,15 +95,11 @@
         function drawPalettes() {
             if (mainPalette) {
                 history.push(mainPalette);
-                let newHistoryCanva = document.createElement('div'),
-                    newCanvaToHistory = document.createElement('div')
+                let newHistoryCanva = document.createElement('div');
 
-                newHistoryCanva.classList.add('historyCanva')
-                newCanvaToHistory.classList.add(['canva'])
+                newHistoryCanva.classList.add('historyCanva','canva')
 
-                newHistoryCanva.appendChild(newCanvaToHistory);
-
-                generatePalette(mainPalette, newCanvaToHistory)
+                generatePalette(mainPalette, newHistoryCanva)
 
                 // agregar al template
                 historySection.appendChild(newHistoryCanva)
@@ -139,6 +144,21 @@
             historySection.innerHTML = '';
         }
         
+        function swapToMain(event) {
+            if (!event.target.parentElement.classList.contains('canva')) return;
+
+            let canva = event.target.parentElement,
+                id = Number(canva.getAttribute('paletteId')),
+                selectedPalleteIndex = history.indexOf(history.find(palette => palette.id === id));
+
+                let tempPalette = history[selectedPalleteIndex];
+
+                history[selectedPalleteIndex] = mainPalette;
+                mainPalette = tempPalette;
+
+                mainPalette.generateHtmlPalette(mainCanva, true)
+                history[selectedPalleteIndex].generateHtmlPalette(canva, false)
+        }
 
 
 
