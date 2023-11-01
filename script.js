@@ -9,6 +9,9 @@
 
         const historySection = document.querySelector('.historial')
         const mainCanva = document.querySelector('.mainCanva')
+        const fullScreenButton = document.querySelector('#expandirCanva'),
+            fullScreenModal = document.querySelector('.fullScreen'),
+            fullScreenCanva = document.querySelector('.fullScreen > .canva')
         
 
         function main() {
@@ -17,6 +20,8 @@
 
             document.querySelector('#limpiarHistorial').addEventListener('click', limpiarHistorial);
             historySection.addEventListener('click', swapToMain)
+            fullScreenButton.addEventListener('click', toggleFullScreen);
+            fullScreenModal.addEventListener('click', toggleFullScreen);
 
         }
 
@@ -45,15 +50,9 @@
                     let colorDiv = document.createElement('div');
                     colorDiv.classList.add('paletteColor')
                     
-                    if (window.innerWidth <= 768) {
-                        colorDiv.style.width = (100/this.colores.length)*2 + '%';
-                        colorDiv.style.height = '50%';                    
 
-                    }else {
-                        colorDiv.style.width = (100/this.colores.length) + '%';
-                        colorDiv.style.height = '100%';                    
-
-                    }
+                    colorDiv.style.width = (100/this.colores.length)*2 + '%';
+                    colorDiv.style.height = '50%';  
 
                     colorDiv.style.backgroundColor = color.getCssColor();
                     
@@ -158,6 +157,14 @@
 
                 mainPalette.generateHtmlPalette(mainCanva, true)
                 history[selectedPalleteIndex].generateHtmlPalette(canva, false)
+        }
+
+        function toggleFullScreen() {
+            if (!mainPalette) return;
+
+            fullScreenModal.classList.toggle('d-none')
+            fullScreenModal.classList.toggle('d-flex')
+            if (fullScreenModal.classList.contains('d-flex')) mainPalette.generateHtmlPalette(fullScreenCanva, false)
         }
 
 
