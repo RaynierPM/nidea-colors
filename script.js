@@ -302,9 +302,13 @@
             // Delete from history
             STORED_PALETTES.splice(STORED_PALETTES.indexOf(selectedPalette), 1)   
             
-            history.push(selectedPalette);
-            generateCanvaWithPalette(historySection, selectedPalette, 'historyCanva', {withDelete: true, withSave: true, withTags: false})
-
+            if (!mainPalette) {
+                mainPalette = selectedPalette;
+                mainPalette.generateHtmlPalette(mainCanva)
+            }else {
+                history.push(selectedPalette);
+                generateCanvaWithPalette(historySection, selectedPalette, 'historyCanva', {withDelete: true, withSave: true, withTags: false})
+            }
 
             paleta.parentElement.removeChild(paleta);
 
