@@ -31,6 +31,7 @@
             historySection.addEventListener('click', paletteButtonHistoryDetectorByID)
             fullScreenButton.addEventListener('click', toggleFullScreen);
             fullScreenModal.addEventListener('click', toggleFullScreen);
+            fullScreenModal.addEventListener('click', copyColorCode)
             savedPalettesSection.addEventListener('click', storedToMain);
 
             loadSavedPalettes();
@@ -53,8 +54,8 @@
 
             randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16).padStart(6, 0);
 
-            generateHtmlPalette(destinationElement, {withTags = true, withButtons = false}) {
-
+            generateHtmlPalette(destinationElement, options =  {withTags: true, withButtons: false}) {
+                const {withButtons, withTags} = options;
                 // The destinationElement must has de class 'canva'
                 if  (!destinationElement.classList.contains('canva')) return;
 
@@ -152,10 +153,10 @@
         }
             
 
-        function generatePalette(palette = mainPalette, destinationElement = mainCanva, options = {withButtons: false, withTags: true}) {
+        function generateMainPalette(palette = mainPalette, destinationElement = mainCanva) {
             destinationElement.classList.remove('d-none')
             
-            palette.generateHtmlPalette(destinationElement, options)
+            palette.generateHtmlPalette(destinationElement)
         }
 
         function drawPalettes() {
@@ -174,7 +175,7 @@
             }
 
             mainPalette = new Palette(Math.abs(colorsQuantity));
-            generatePalette();
+            generateMainPalette();
 
         }
 
@@ -188,7 +189,7 @@
         }
 
         function copyColorCode(event) {
-            if (! event.target.classList.contains('colorName')) return;
+            if (!event.target.classList.contains('colorName')) return;
 
             let colorTag = event.target,
                 range = document.createRange(),
@@ -264,7 +265,7 @@
 
             fullScreenModal.classList.toggle('d-none')
             fullScreenModal.classList.toggle('d-flex')
-            if (fullScreenModal.classList.contains('d-flex')) mainPalette.generateHtmlPalette(fullScreenCanva, {withTags: false, withButtons: false})
+            if (fullScreenModal.classList.contains('d-flex')) mainPalette.generateHtmlPalette(fullScreenCanva, {withTags: true, withButtons: false})
         }
 
         function paletteButtonHistoryDetectorByID(event) {
