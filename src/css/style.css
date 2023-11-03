@@ -55,7 +55,7 @@ body {background-color: var(--white);}
     position: relative;
 }
 
-.historyCanva {
+.historyCanva, .storedCanva {
     width: 48%;
     height: 100px;
 
@@ -65,13 +65,21 @@ body {background-color: var(--white);}
     cursor: pointer;
 }
 
-.historyCanva:hover {
+.storedCanva {
+    width: 49%;
+}
+
+.historyCanva:hover, .storedCanva:hover {
     transform: scale(1.05);
 }
 
 @media only screen and (min-width: 786px) {
     .historyCanva {
         width: 30%;
+    }
+
+    .storedCanva {
+        width: 12%;
     }
 }
 
