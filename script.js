@@ -240,7 +240,7 @@
 
                 let tempPalette = history[selectedPalleteIndex];
 
-                if (!STORED_PALETTES.includes(mainPalette)) history[selectedPalleteIndex] = mainPalette;
+                if (mainPalette && !STORED_PALETTES.includes(mainPalette)) history[selectedPalleteIndex] = mainPalette;
                 mainPalette = tempPalette;
 
                 if (history[selectedPalleteIndex] == mainPalette) {
@@ -307,7 +307,7 @@
                 mainPalette.generateHtmlPalette(mainCanva)
             }else {
                 history.push(selectedPalette);
-                generateCanvaWithPalette(historySection, selectedPalette, 'historyCanva', {withDelete: true, withSave: true, withTags: false})
+                if (mainPalette != selectedPalette) generateCanvaWithPalette(historySection, selectedPalette, 'historyCanva', {withDelete: true, withSave: true, withTags: false})
             }
 
             paleta.parentElement.removeChild(paleta);
