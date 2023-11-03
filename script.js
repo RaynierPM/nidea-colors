@@ -236,7 +236,7 @@
                 id = Number(canva.getAttribute('paletteId')),
                 selectedPaletteIndex = STORED_PALETTES.indexOf(STORED_PALETTES.find(palette => palette.id === id))
 
-            if (mainPalette && !history.includes(mainPalette) && !STORED_PALETTES.includes(mainPalette)) {
+            if (mainPalette && !STORED_PALETTES.includes(mainPalette)) {
                 history.push(mainPalette)
                 
                 generateCanvaWithPalette(historySection, mainPalette, 'historyCanva')
@@ -316,6 +316,7 @@
 
             
             localStorage.setItem('palettes', JSON.stringify(jsonStoredPalettes))
+            deleteHistoryLog(paleta)
 
         }
 
