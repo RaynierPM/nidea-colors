@@ -27,7 +27,7 @@
             document.querySelector('#generator').addEventListener('click', drawPalettes)
             mainCanva.addEventListener('click', copyColorCode)
 
-            document.querySelector('#limpiarHistorial').addEventListener('click', limpiarHistorial);
+            document.querySelector('#limpiarHistorial').addEventListener('click', clearHistoryLogs);
             historySection.addEventListener('click', swapToMain)
             historySection.addEventListener('click', paletteButtonHistoryDetectorByID)
             mainCanva.addEventListener('click', () => {
@@ -222,9 +222,12 @@
         } 
 
 
-        function limpiarHistorial() {
+        function clearHistoryLogs() {
             history.splice(0, history.length)
             historySection.innerHTML = '';
+
+            // mainCanva.innerHTML = '';
+            // mainPalette = undefined;
         }
         
         function swapToMain(event) {
@@ -240,10 +243,13 @@
                 if (!STORED_PALETTES.includes(mainPalette)) history[selectedPalleteIndex] = mainPalette;
                 mainPalette = tempPalette;
 
-                if (history[selectedPalleteIndex] == mainPalette) deleteHistoryLog(canva)
+                if (history[selectedPalleteIndex] == mainPalette) {
+                    deleteHistoryLog(canva)
+                }else {
+                    history[selectedPalleteIndex].generateHtmlPalette(canva, {withTags: false, withSave: true, withDelete: true})
+                }
 
                 mainPalette.generateHtmlPalette(mainCanva, {withTags: true, withDelete: false, withSave: true})
-                history[selectedPalleteIndex].generateHtmlPalette(canva, {withTags: false, withSave: true, withDelete: true})
         }
 
         // function to put the stored palette to the main canva
@@ -290,10 +296,15 @@
         }
 
         function deleteSavedPalettes(paleta) {
-            let id = Number(paleta.getAttribute('paletteId')) 
+            let id = Number(paleta.getAttribute('paletteId')),
+                selectedPalette = STORED_PALETTES.find(palette => palette.id === id)
 
             // Delete from history
-            STORED_PALETTES.splice(STORED_PALETTES.indexOf(STORED_PALETTES.find(palette => palette.id === id)), 1)            
+            STORED_PALETTES.splice(STORED_PALETTES.indexOf(selectedPalette), 1)   
+            
+            history.push(selectedPalette);
+            generateCanvaWithPalette(historySection, selectedPalette, 'historyCanva', {withDelete: true, withSave: true, withTags: false})
+
 
             paleta.parentElement.removeChild(paleta);
 
@@ -352,8 +363,11 @@
         }
 
         function savePaletteFromMain() {
+            // Clear the 'empty' section
+            if (STORED_PALETTES.length === 0) savedPalettesSection.innerHTML = '';
+            
             generateCanvaWithPalette(savedPalettesSection, mainPalette, 'storedCanva', {withUnsave: true, withSave: false, withTags: false})
-
+            
             STORED_PALETTES.push(mainPalette)
             mainPalette = undefined;
 
