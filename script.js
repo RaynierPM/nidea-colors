@@ -62,13 +62,18 @@
                 destinationElement.classList.add('d-flex')
 
 
-                this.colores.forEach(color => {
+                this.colores.forEach((color, index) => {
                     let colorDiv = document.createElement('div');
                     colorDiv.classList.add('paletteColor')
                     
 
-                    colorDiv.style.width = (100/ Math.ceil(this.colores.length/2)) + '%';
-                    colorDiv.style.height = '50%';  
+                    colorDiv.style.width = this.colores.length % 2 === 1 && index === this.colores.length-1?
+                         (100/ Math.ceil(this.colores.length/2))*2 + '%' : 
+                         (100/ Math.ceil(this.colores.length/2)) + '%' ;
+
+                    colorDiv.style.height = this.colores.length === 1? '100%' : '50%';  
+                    
+
 
                     colorDiv.style.backgroundColor = color.getCssColor();
                     
@@ -152,6 +157,9 @@
 
         function drawPalettes() {
             let colorsQuantity = Number(quantityInput.value);
+
+            if (colorsQuantity > 10) {alert('Se ha delimitado a 10 colores por paleta'); return;}
+
             if (colorsQuantity === 0) return
             if (mainPalette && !STORED_PALETTES.includes(mainPalette)) {
                 history.push(mainPalette);
