@@ -369,6 +369,8 @@
         function savePaletteFromMain() {
             // Clear the 'empty' section
             if (STORED_PALETTES.length === 0) savedPalettesSection.innerHTML = '';
+
+            if (STORED_PALETTES.includes(mainPalette)) return;
             
             generateCanvaWithPalette(savedPalettesSection, mainPalette, 'storedCanva', {withUnsave: true, withSave: false, withTags: false})
             
