@@ -3,13 +3,14 @@
 
         var mainPalette;
         var id = 0;
-        const history = [];
-        const STORED_PALETTES = [];
+        const history = [],
+            STORED_PALETTES = [];
 
         // Map -> for the Function paletteButtonDetecto
         const buttonsFunctions = new Map([
             ['eliminarPaleta', deleteHistoryLog], 
-            ['guardarPaleta', savePalette]
+            ['guardarPaleta', savePalette],
+            ['noGuardarPaleta', deleteSavedPalettes]
         ]);
         
         const toast = new bootstrap.Toast(document.querySelector('#copyToast')),
@@ -29,14 +30,16 @@
             document.querySelector('#limpiarHistorial').addEventListener('click', limpiarHistorial);
             historySection.addEventListener('click', swapToMain)
             historySection.addEventListener('click', paletteButtonHistoryDetectorByID)
+            mainCanva.addEventListener('click', () => {
+                if (event.target.id === 'guardarPaleta' && mainPalette) savePaletteFromMain();
+            })
             fullScreenButton.addEventListener('click', toggleFullScreen);
             fullScreenModal.addEventListener('click', toggleFullScreen);
             fullScreenModal.addEventListener('click', copyColorCode)
             savedPalettesSection.addEventListener('click', storedToMain);
+            savedPalettesSection.addEventListener('click', paletteButtonHistoryDetectorByID)
 
             loadSavedPalettes();
-            
-
         }
 
         class Palette {
@@ -54,8 +57,8 @@
 
             randomColor = () => (Math.round(Math.random() * parseInt('FFFFFF', 16))).toString(16).padStart(6, 0);
 
-            generateHtmlPalette(destinationElement, options =  {withTags: true, withButtons: false}) {
-                const {withButtons, withTags} = options;
+            generateHtmlPalette(destinationElement, options =  {withTags: true, withDelete: false, withSave: true, withUnsave: false}) {
+                const {withDelete, withSave, withTags, withUnsave} = options;
                 // The destinationElement must has de class 'canva'
                 if  (!destinationElement.classList.contains('canva')) return;
 
@@ -90,8 +93,9 @@
                 });
 
                 // add buttons to history-Log
-                if (withButtons) this.addButton(destinationElement, 'bi-x-lg', {top: '0', right: '0'}, 'eliminarPaleta');
-                if (withButtons) this.addButton(destinationElement, 'bi-box-arrow-down', {left: '0', top: '0'}, 'guardarPaleta');
+                if (withDelete) this.addButton(destinationElement, 'bi-x-lg', {top: '0', right: '0'}, 'eliminarPaleta');
+                if (withSave) this.addButton(destinationElement, 'bi-box-arrow-down', {left: '0', top: '0'}, 'guardarPaleta');
+                if (withUnsave) this.addButton(destinationElement, 'bi-box-arrow-up', {left: '0', top: '0'}, 'noGuardarPaleta')
 
             }
 
@@ -105,27 +109,28 @@
             }
 
             addButton(destinationElement, icon, {top = 'unset', left ='unset', right = 'unset', bottom = 'unset'}, idName) {
-                let deleteButton = document.createElement('i')
-                deleteButton.classList.add('bi', icon, 'position-absolute', 'rounded-circle', 'd-flex', 'justify-content-center', 'align-items-center', 'p-1')
-                deleteButton.style.backgroundColor = '#0003';
-                deleteButton.style.color = 'white';
-                deleteButton.style.fontWeight = 'bold';
+                let newButton = document.createElement('i')
+                newButton.classList.add('bi', icon, 'position-absolute', 'rounded-circle', 'd-flex', 'justify-content-center', 'align-items-center', 'p-1')
+                newButton.style.backgroundColor = '#0003';
+                newButton.style.color = 'white';
+                newButton.style.fontWeight = 'bold';
 
                 // Position
-                deleteButton.style.top = top;
-                deleteButton.style.left = left;
-                deleteButton.style.right = right;
-                deleteButton.style.bottom = bottom;
+                newButton.style.top = top;
+                newButton.style.left = left;
+                newButton.style.right = right;
+                newButton.style.bottom = bottom;
 
-                deleteButton.style.width = '30px'
-                deleteButton.style.height = '30px'
+                newButton.style.width = '30px'
+                newButton.style.height = '30px'
 
+                newButton.style.cursor = "pointer";
 
-                // deleteButton.id = 'eliminarPaleta'
-                deleteButton.id = idName
+                // newButton.id = 'eliminarPaleta'
+                newButton.id = idName
                 
 
-                destinationElement.appendChild(deleteButton);
+                destinationElement.appendChild(newButton);
             }
 
             static Fromjson(json = {}) {
@@ -179,7 +184,7 @@
 
         }
 
-        function generateCanvaWithPalette(destinationElement, palette, canvaClass = '', options = {withButtons: true, withTags: false}) {
+        function generateCanvaWithPalette(destinationElement, palette, canvaClass = '', options = {withDelete: true, withSave: true, withTags: false}) {
             let canva = document.createElement('div');
             canva.classList.add(canvaClass, 'canva');
 
@@ -218,7 +223,7 @@
 
 
         function limpiarHistorial() {
-            history.slice(0, 0)
+            history.splice(0, history.length)
             historySection.innerHTML = '';
         }
         
@@ -237,8 +242,8 @@
 
                 if (history[selectedPalleteIndex] == mainPalette) deleteHistoryLog(canva)
 
-                mainPalette.generateHtmlPalette(mainCanva, {withTags: true, withButtons: false})
-                history[selectedPalleteIndex].generateHtmlPalette(canva, {withTags: false, withButtons: true})
+                mainPalette.generateHtmlPalette(mainCanva, {withTags: true, withDelete: false, withSave: true})
+                history[selectedPalleteIndex].generateHtmlPalette(canva, {withTags: false, withSave: true, withDelete: true})
         }
 
         // function to put the stored palette to the main canva
@@ -257,7 +262,7 @@
             }
 
             mainPalette = STORED_PALETTES[selectedPaletteIndex];
-            mainPalette.generateHtmlPalette(mainCanva, {withButtons: false, withTags: true})
+            mainPalette.generateHtmlPalette(mainCanva, {withDelete: false, withSave: true, withTags: true})
         }
 
         function toggleFullScreen() {
@@ -265,22 +270,37 @@
 
             fullScreenModal.classList.toggle('d-none')
             fullScreenModal.classList.toggle('d-flex')
-            if (fullScreenModal.classList.contains('d-flex')) mainPalette.generateHtmlPalette(fullScreenCanva, {withTags: true, withButtons: false})
+            if (fullScreenModal.classList.contains('d-flex')) mainPalette.generateHtmlPalette(fullScreenCanva, {withTags: true, withSave: false, withDelete: false})
         }
 
         function paletteButtonHistoryDetectorByID(event) {
-            if (!buttonsFunctions.get(event.target.id)) return;
+            let functionTrigger = buttonsFunctions.get(event.target.id); 
+            if (!functionTrigger) return;
             
-            buttonsFunctions.get(event.target.id)(event.target.parentElement);
+            functionTrigger(event.target.parentElement);
         }
 
         function deleteHistoryLog(paleta) {
             let id = Number(paleta.getAttribute('paletteId')) 
 
             // Delete from history
-            history.slice(history.indexOf(history.find(palette => palette.id === id)))
+            history.splice(history.indexOf(history.find(palette => palette.id === id)), 1)
 
             paleta.parentElement.removeChild(paleta);
+        }
+
+        function deleteSavedPalettes(paleta) {
+            let id = Number(paleta.getAttribute('paletteId')) 
+
+            // Delete from history
+            STORED_PALETTES.splice(STORED_PALETTES.indexOf(STORED_PALETTES.find(palette => palette.id === id)), 1)            
+
+            paleta.parentElement.removeChild(paleta);
+
+            if (STORED_PALETTES.length === 0) 
+                savedPalettesSection.innerHTML += `<h3 class='w-100 text-center' style="font-size: 1em">No hay paletas guardadas permanentemente </h3>`;
+
+            saveOnLocalStorage();
         }
 
         // Start - Functions to  LocalStorage managment
@@ -290,16 +310,18 @@
 
                 let palettes = JSON.parse(localStorage.getItem('palettes'));
 
+                let length = 0;
+
                 for (let jsonPalette of palettes) {
+                    length++
                     let palette = Palette.Fromjson(jsonPalette)
                     STORED_PALETTES.push(palette);
 
-                    generateCanvaWithPalette(savedPalettesSection, palette, 'storedCanva', {withButtons: false, withTags: false})                    
+                    generateCanvaWithPalette(savedPalettesSection, palette, 'storedCanva', {withUnsave: true, withSave: false, withTags: false})                    
                 }
 
-                if (palettes.lenght < 1) {
-                    savedPalettesSection.innerHTML += `<h3 class='w-100 text-center'>No hay paletas guardadas permanentemente </h3>`;
-                }
+                if (palettes.length === 0) 
+                    savedPalettesSection.innerHTML += `<h3 class='w-100 text-center' style="font-size: 1em">No hay paletas guardadas permanentemente </h3>`;
 
 
 
@@ -308,33 +330,51 @@
             }
 
         }
-        // End - LocalStorage managment
-
+        
         function savePalette(paleta) {
-            let selectedPallete = history.find(palette => palette.id === Number(paleta.getAttribute("paletteId")))       
+            // If doesn't exists in the historyArray is because the selected palette is the main
+            let selectedPallete = history.find(palette => palette.id === Number(paleta.getAttribute("paletteId")))
             
             // Draw visually the selected palette
             if (STORED_PALETTES.length === 0) savedPalettesSection.innerHTML = '';
             // If the palette was added dont do anything
             if (STORED_PALETTES.includes(selectedPallete)) return;
-            generateCanvaWithPalette(savedPalettesSection, selectedPallete, 'storedCanva', {withButtons: false, withTags: false})
-
-            const jsonStoredPalettes = []
-
-            // save the selectedPalette
+            
+            generateCanvaWithPalette(savedPalettesSection, selectedPallete, 'storedCanva', {withUnsave: true, withSave: false, withTags: false})
+            
+            // save the selectedPalette into the STORED_palettes
             STORED_PALETTES.push(selectedPallete)
             
-            for(let palette of STORED_PALETTES) {
-                jsonStoredPalettes.push(palette.toJson())
-            }
+            saveOnLocalStorage();
 
-            
-            localStorage.setItem('palettes', JSON.stringify(jsonStoredPalettes))
             deleteHistoryLog(paleta)
+            
+        }
+
+        function savePaletteFromMain() {
+            generateCanvaWithPalette(savedPalettesSection, mainPalette, 'storedCanva', {withUnsave: true, withSave: false, withTags: false})
+
+            STORED_PALETTES.push(mainPalette)
+            mainPalette = undefined;
+
+            saveOnLocalStorage();
+            mainCanva.innerHTML = ''
 
         }
 
+        function saveOnLocalStorage() {
+            const jsonStoredPalettes = []
 
+            for(let palette of STORED_PALETTES) {
+                jsonStoredPalettes.push(palette.toJson())
+            }
+            
+            localStorage.setItem('palettes', JSON.stringify(jsonStoredPalettes))
+        }
+        
+
+        
+        // End - LocalStorage managment
         main();
 
     })
