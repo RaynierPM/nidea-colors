@@ -151,6 +151,8 @@
         }
 
         function drawPalettes() {
+            let colorsQuantity = Number(quantityInput.value);
+            if (colorsQuantity === 0) return
             if (mainPalette && !STORED_PALETTES.includes(mainPalette)) {
                 history.push(mainPalette);
 
@@ -160,7 +162,7 @@
 
             }
 
-            mainPalette = new Palette(Number(quantityInput.value));
+            mainPalette = new Palette(Math.abs(colorsQuantity));
             generatePalette();
 
         }
