@@ -66,13 +66,16 @@
                     let colorDiv = document.createElement('div');
                     colorDiv.classList.add('paletteColor')
                     
-
-                    colorDiv.style.width = this.colores.length % 2 === 1 && index === this.colores.length-1?
-                         (100/ Math.ceil(this.colores.length/2))*2 + '%' : 
-                         (100/ Math.ceil(this.colores.length/2)) + '%' ;
-
-                    colorDiv.style.height = this.colores.length === 1? '100%' : '50%';  
-                    
+                    if (this.colores.length === 3) {
+                        colorDiv.style.width = "100%";
+                        colorDiv.style.height = "33.3%";
+                    }else {
+                        colorDiv.style.width = this.colores.length % 2 === 1 && index === this.colores.length-1?
+                             (100/ Math.ceil(this.colores.length/2))*2 + '%' : 
+                             (100/ Math.ceil(this.colores.length/2)) + '%' ;
+    
+                        colorDiv.style.height = this.colores.length === 1? '100%' : '50%';  
+                    }
 
 
                     colorDiv.style.backgroundColor = color.getCssColor();
