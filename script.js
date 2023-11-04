@@ -198,7 +198,7 @@
 
             palette.generateHtmlPalette(canva, options);
 
-            destinationElement.appendChild(canva);
+            destinationElement.insertBefore(canva, destinationElement.firstChild);
         }
 
         function copyColorCode(event) {
