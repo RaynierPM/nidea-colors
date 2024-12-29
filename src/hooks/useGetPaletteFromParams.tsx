@@ -9,7 +9,12 @@ export default function useGetPaletteFromParams(
   useEffect(() => {
     const path = window.location.pathname;
     const hexColors = path.split('/').slice(1);
-    console.log(hexColors);
+
+    const notValidUrl = hexColors[0] === '';
+    if (notValidUrl) {
+      return;
+    }
+
     let palette: Palette | null = null;
     try {
       const paletteJson = JSON.stringify({ colors: hexColors });
