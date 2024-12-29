@@ -1,5 +1,5 @@
 import Color from 'core/Color';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 type RandomColorTextProps = {
   text: string;
@@ -8,14 +8,14 @@ type RandomColorTextProps = {
 export default function RandomColorText({ text }: RandomColorTextProps) {
   const [letters] = useState<string[]>(getLetters(text));
 
-  return (
-    <h1>
-      {letters.map(letter => {
-        const color = Color.generateRandomColor();
-        return <span style={{ color: `#${color.hexColor}` }}>{letter}</span>;
-      })}
-    </h1>
-  );
+  const titleElements = useMemo(() => {
+    return letters.map(letter => {
+      const color = Color.generateRandomColor();
+      return <span style={{ color: `#${color.hexColor}` }}>{letter}</span>;
+    });
+  }, [letters]);
+
+  return <h1>{titleElements}</h1>;
 }
 
 function getLetters(text: string): string[] {
