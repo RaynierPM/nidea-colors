@@ -1,89 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>random colors</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
-    <link rel="stylesheet" href="src/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="src/css/style.css">
-</head>
-<body>
-    
-    <header>
-        <div class="banner p-3 mb-2">
-            <h1>Nidea-colorcito</h1>
-        </div>
-    </header>
-    
-    <main class="p-2">
-        <section class="paleta p-3 rounded d-flex flex-column">
-            <h2>Generador de paletas de colores aleatorias</h2>
-
-            <div class="w-100 d-flex">
-                <input type="number" id="cantidad" value="4" min="0" max="10" class="form-control" placeholder="Ej: 10">
-    
-                <button class="mx-auto btn btn-secondary px-4" id="generator">
-                    Generar
-                </button>
-            </div>
-            <div class="container position-relative" style="height: 200px;">
-                <div class="mainCanva canva rounded overflow-hidden"></div>
-                <i id="expandirCanva" 
-                    class="bi bi-arrows-angle-expand d-flex justify-content-center align-items-center position-absolute top-0 end-0 rounded-circle p-2 font-weight-bold" 
-                    style="font-size: 1.2em; cursor: pointer; background-color: #0006; color: white; width: 30px; height: 30px;"
-                    data-toggle="modal" data-target="#exampleModal"></i>
-            </div>
-        </section>
-
-
-        <section class="p-3 rounded d-flex flex-column mt-2">
-            <h2>Historial <i class="bi bi-trash" id="limpiarHistorial"></i> </h2>
-
-            <div class="historial d-flex flex-row justify-content-evenly flex-wrap w-100">
-
-            </div>
-        </section>
-
-        <section class="p-3 rounded d-flex flex-column mt-2 w-100">
-            <h2>Paletas guardadas</h2>
-
-            <div id="paletasGuardadas" class="d-flex flex-wrap w-100 justify-content-evenly">
-
-            </div>
-        </section>
-        
-    </main>
-
-    <footer>
-        <div class="W-100 d-flex justify-content-center">
-            <p>&copy; Raynier Perez Minyety - 2023</p>
-        </div>
-    </footer>
-
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11; max-width: 100vw;">
-        <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-            <strong class="me-1">Colorcito</strong> <div id="colorcitoExample" class="rounded-circle me-auto" style="width: 20px; height: 20px;"></div>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">
-            Color copiado en portapapeles
-          </div>
-        </div>
-    </div>
-
-    <div class="fullScreen d-none justify-content-center align-items-center position-fixed top-0 start-0" style="width: 100vw; height: 100vh; background-color: #0009; z-index: 100;">
-        <div class="canva" style="width: 90vw; height: 90vh; ">
-
-        </div>
-    </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
