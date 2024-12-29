@@ -8,21 +8,23 @@ import { getPaletteUrl } from './core/utils/paletteUrl';
 import useUpdateUrlByPalette from './hooks/useUpdateUrlByPalette';
 
 function App() {
+  const [generatedByUser, setGeneratedByUser] = useState(false);
   const [palette, setPalette] = useState<Palette>(
     Palette.generateRandomPallete(4),
   );
 
   const paletteUrl = getPaletteUrl(palette);
 
+  function generateNewPalette() {
+    setPalette(Palette.generateRandomPallete(4));
+    setGeneratedByUser(true);
+  }
+
   function paletteCb(palette: Palette) {
     setPalette(palette);
   }
 
-  function generateNewPalette() {
-    setPalette(Palette.generateRandomPallete(4));
-  }
-
-  useUpdateUrlByPalette(palette);
+  useUpdateUrlByPalette(palette, generatedByUser);
   useGetPaletteFromParams(paletteCb);
 
   return (
