@@ -1,3 +1,4 @@
+import { copyToClipboard } from '../utils/copyToClipboard';
 import styles from './style.module.css';
 
 type LabelProps = {
@@ -5,8 +6,12 @@ type LabelProps = {
 };
 
 export default function Label({ text }: LabelProps) {
+  function handleCopy() {
+    copyToClipboard(text);
+  }
+
   return (
-    <div className={styles.labelContainer}>
+    <div className={styles.labelContainer} onClick={handleCopy}>
       <span className={styles.label}>{text}</span>
     </div>
   );

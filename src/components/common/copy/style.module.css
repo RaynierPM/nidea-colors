@@ -1,0 +1,12 @@
+.clipboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+
+  margin: 5px 0;
+
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
