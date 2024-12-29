@@ -3,7 +3,13 @@
   height: 100%;
 
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 576px) {
+  .canvas {
+    flex-direction: row;
+  }
 }
 
 .canvas > .tile {
