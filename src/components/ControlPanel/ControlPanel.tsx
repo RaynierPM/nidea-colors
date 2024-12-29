@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import styles from './style.module.css';
 import SharePaletteModal from './functions/SharePaletteModal';
 import { useState } from 'react';
@@ -29,7 +29,11 @@ export default function ControlPanel({
         <Button onClick={openModal}>
           <i className="bi-share" />
         </Button>
-        <Button onClick={generateNewPalette}>Generate new palette</Button>
+        <Tooltip title="Generate new palette">
+          <Button onClick={generateNewPalette}>
+            <i className="bi bi-arrow-repeat" />
+          </Button>
+        </Tooltip>
       </div>
       <SharePaletteModal
         palettUrl={paletteUrl}
