@@ -2,6 +2,9 @@ import { Button, Tooltip } from 'antd';
 import styles from './style.module.css';
 import SharePaletteModal from './functions/SharePaletteModal';
 import { useState } from 'react';
+import RandomColorText from 'components/common/Text/RandomColorText';
+
+const pageTitle = 'Nidea colors';
 
 type ControlPanelProps = {
   paletteUrl: string;
@@ -24,7 +27,9 @@ export default function ControlPanel({
 
   return (
     <header className={styles.controlPanel}>
-      <h1>Nidea colors</h1>
+      <h1>
+        <RandomColorText text={pageTitle} />
+      </h1>
       <div className={styles.buttons}>
         <Button onClick={openModal}>
           <i className="bi-share" />

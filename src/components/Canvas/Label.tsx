@@ -1,4 +1,4 @@
-import { copyToClipboard } from '../utils/copyToClipboard';
+import { copyToClipboard } from 'components/utils/copyToClipboard';
 import styles from './style.module.css';
 
 type LabelProps = {
