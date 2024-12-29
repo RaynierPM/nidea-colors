@@ -5,6 +5,7 @@ import Palette from './core/palette';
 import { Toaster } from 'sonner';
 import useGetPaletteFromParams from './hooks/useGetPaletteFromParams';
 import { getPaletteUrl } from './core/utils/paletteUrl';
+import useUpdateUrlByPalette from './hooks/useUpdateUrlByPalette';
 
 function App() {
   const [palette, setPalette] = useState<Palette>(
@@ -21,6 +22,7 @@ function App() {
     setPalette(Palette.generateRandomPallete(4));
   }
 
+  useUpdateUrlByPalette(palette);
   useGetPaletteFromParams(paletteCb);
 
   return (
