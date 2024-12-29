@@ -1,6 +1,6 @@
+import Palette from 'core/palette';
+import { getPaletteUrl } from 'core/utils/paletteUrl';
 import { useEffect } from 'react';
-import Palette from '../core/palette';
-import { getPaletteUrl } from '../core/utils/paletteUrl';
 
 export default function useUpdateUrlByPalette(
   palette: Palette,

@@ -1,4 +1,4 @@
-import Palette from '../../core/palette';
+import Palette from 'core/palette';
 import styles from './style.module.css';
 import Tile from './Tile';
 

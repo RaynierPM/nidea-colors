@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
-import { InvalidHexColorsJsonError } from '../core/errors/Palette';
-import Palette from '../core/palette';
 import { useEffect } from 'react';
+import Palette from 'core/palette';
+import { InvalidHexColorsJsonError } from 'core/errors/Palette';
 
 export default function useGetPaletteFromParams(
   paletteCb: (palette: Palette) => void,

@@ -1,5 +1,5 @@
-import CopyField from '../../common/copy/CopyField';
-import ModalComponent from '../../modal/Modal';
+import CopyField from 'components/common/copy/CopyField';
+import ModalComponent from 'components/modal/Modal';
 
 type SharePaletteModalProps = {
   visible: boolean;

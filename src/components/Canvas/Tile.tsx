@@ -1,4 +1,4 @@
-import Color from '../../core/Color';
+import Color from 'core/Color';
 import Label from './Label';
 import styles from './style.module.css';
 

@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import styles from './style.module.css';
-import { copyToClipboard } from '../../utils/copyToClipboard';
+import { copyToClipboard } from 'components/utils/copyToClipboard';
 
 type CopyFieldProps = {
   text: string;
