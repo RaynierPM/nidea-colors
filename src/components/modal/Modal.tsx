@@ -15,7 +15,7 @@ export default function ModalComponent({
 }: ModalComponentProps) {
   return (
     <Modal
-      visible={visible}
+      open={visible}
       onCancel={onClose}
       title={title}
       footer={null}

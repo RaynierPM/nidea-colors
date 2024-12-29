@@ -27,13 +27,14 @@
   left: 0;
 
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
 
   padding: 10px;
 }
 
-.labelContainer > .label {
+.labelContainer > .label,
+.labelContainer .action {
   font-weight: bold;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
@@ -47,6 +48,7 @@
   cursor: pointer;
 }
 
-.labelContainer > .label:hover {
+.labelContainer > .label:hover,
+.labelContainer .action:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }

@@ -27,9 +27,7 @@ export default function ControlPanel({
 
   return (
     <header className={styles.controlPanel}>
-      <h1>
-        <RandomColorText text={pageTitle} />
-      </h1>
+      <RandomColorText text={pageTitle} />
       <div className={styles.buttons}>
         <Button onClick={openModal}>
           <i className="bi-share" />

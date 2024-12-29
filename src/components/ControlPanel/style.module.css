@@ -4,7 +4,7 @@
   justify-content: start;
   align-items: center;
 
-  padding: 15px;
+  padding: 5px 10px;
 }
 
 @media only screen and (min-width: 576px) {
@@ -25,12 +25,14 @@
 }
 
 .buttons > button {
-  padding: 10px 20px;
-  font-size: 1.1em;
+  padding: 10px;
+  font-size: 1.3em;
   font-weight: bold;
 
   background-color: white;
   color: black;
+
+  height: 100%;
 }
 
 .buttons > button:hover {

@@ -4,6 +4,9 @@ import { InvalidHexColorsJsonError } from './errors/Palette';
 
 export default class Palette {
   private _colors: Color[];
+
+  // private locked_colors: { [key: string]: boolean };
+
   set colors(colors: Color[]) {
     this._colors = colors;
   }
@@ -19,19 +22,8 @@ export default class Palette {
     this._colors = [];
   }
 
-  public addColor(color: Color) {
-    this._colors.push(color);
-  }
-
-  public static generateRandomPallete(colors: number): Palette {
-    const pallete = new Palette();
-
-    const generatedColors: Color[] = new Array(Math.round(colors || 1))
-      .fill(0)
-      .map(() => Color.generateRandomColor());
-
-    pallete.colors = generatedColors;
-    return pallete;
+  public addColor(...colors: Color[]) {
+    this._colors.push(...colors);
   }
 
   public toString() {

@@ -11,7 +11,11 @@ export default function RandomColorText({ text }: RandomColorTextProps) {
   const titleElements = useMemo<React.ReactNode[]>(() => {
     return letters.map(letter => {
       const color = Color.generateRandomColor();
-      return <span style={{ color: `#${color.hexColor}` }}>{letter}</span>;
+      return (
+        <span key={color.hexColor} style={{ color: `#${color.hexColor}` }}>
+          {letter}
+        </span>
+      );
     });
   }, [letters]);
 
