@@ -4,7 +4,7 @@ import Palette from './core/palette';
 function App() {
   return (
     <div className="app">
-      Nidea-colorcito
+      Nidea-colors
       <Canvas palette={Palette.generateRandomPallete(4)} />
     </div>
   );
