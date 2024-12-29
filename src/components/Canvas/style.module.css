@@ -12,8 +12,35 @@
   min-width: 50px;
 }
 
-.tile > .label {
+.tile > .labelContainer {
+  width: 100%;
+  padding: 0px 15px;
+
   position: absolute;
   bottom: 0;
   left: 0;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  padding: 10px;
+}
+
+.labelContainer > .label {
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+
+  display: inline-block;
+
+  transition: background-color 0.2s ease-in-out;
+
+  cursor: pointer;
+}
+
+.labelContainer > .label:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }

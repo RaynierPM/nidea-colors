@@ -5,5 +5,9 @@ type LabelProps = {
 };
 
 export default function Label({ text }: LabelProps) {
-  return <div className={styles.label}>{text}</div>;
+  return (
+    <div className={styles.labelContainer}>
+      <span className={styles.label}>{text}</span>
+    </div>
+  );
 }
