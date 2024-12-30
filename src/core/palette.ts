@@ -5,8 +5,6 @@ import { InvalidHexColorsJsonError } from './errors/Palette';
 export default class Palette {
   private _colors: Color[];
 
-  // private locked_colors: { [key: string]: boolean };
-
   set colors(colors: Color[]) {
     this._colors = colors;
   }
@@ -24,6 +22,10 @@ export default class Palette {
 
   public addColor(...colors: Color[]) {
     this._colors.push(...colors);
+  }
+
+  public removeColor(color: Color) {
+    this._colors = this._colors.filter(c => c.hexColor !== color.hexColor);
   }
 
   public toString() {

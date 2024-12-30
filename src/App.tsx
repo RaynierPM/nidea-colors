@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Canvas from './components/Canvas/Canvas';
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import Palette from './core/palette';
@@ -8,21 +8,31 @@ import { getPaletteUrl } from './core/utils/paletteUrl';
 import useUpdateUrlByPalette from './hooks/useUpdateUrlByPalette';
 import Color from 'core/Color';
 import { InvalidColorsQuantityError } from 'core/errors/PaletteFactory';
-import PaletteFactory from 'core/PaletteFactory';
+import PaletteFactory, { type PaletteGenerator } from 'core/PaletteFactory';
+import { PalleteGenerationType } from 'core/types';
 
 function App() {
-  const [lockedColors, setLockedColors] = useState<Color[]>([]);
+  const [paletteType] = useState<PalleteGenerationType>(
+    PalleteGenerationType.RANDOM,
+  );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const paletteGenerator = useCallback<PaletteGenerator>(
+    PaletteFactory.getPaletteGenerator(paletteType),
+    [paletteType],
+  );
+
+  const [lockedColors, setLockedColors] = useState<Color[]>([]);
   const [generatedByUser, setGeneratedByUser] = useState(false);
   const [palette, setPalette] = useState<Palette>(
-    PaletteFactory.generateRandomPalette(4),
+    paletteGenerator(4, { lockedColors }),
   );
 
   const paletteUrl = getPaletteUrl(palette);
 
   function generateNewPalette() {
     try {
-      setPalette(PaletteFactory.generateRandomPalette(4, lockedColors));
+      setPalette(paletteGenerator(4, { lockedColors }));
       setGeneratedByUser(true);
     } catch (err) {
       if (err instanceof InvalidColorsQuantityError) {
