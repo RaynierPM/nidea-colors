@@ -1,6 +1,6 @@
 import { InvalidHexColorError } from './errors/Color';
 
-const hexColorRegex = /^([0-9a-f]{3,8})$/;
+const hexColorRegex = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
 export default class Color {
   constructor(hexColor: number) {
