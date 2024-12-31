@@ -8,12 +8,17 @@ import { getPaletteUrl } from './core/utils/paletteUrl';
 import Color from 'core/Color';
 import { InvalidColorsQuantityError } from 'core/errors/PaletteFactory';
 import PaletteFactory, { type PaletteGenerator } from 'core/PaletteFactory';
-import { PalleteGenerationType } from 'core/types';
+import {
+  PaletteColorsLimit,
+  PaletteGenerationType as PaletteGenerationType,
+} from 'core/types';
 import PreviewModal from 'components/PalettePreview/PreviewModal';
+import { clearPaletteUrl } from 'utils/url';
+import { getRandomColor } from 'core/utils/color';
 
 function App() {
-  const [paletteType] = useState<PalleteGenerationType>(
-    PalleteGenerationType.RANDOM,
+  const [paletteType] = useState<PaletteGenerationType>(
+    PaletteGenerationType.RANDOM,
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,11 +37,23 @@ function App() {
   function generateNewPalette() {
     try {
       setPalette(paletteGenerator(4, { lockedColors }));
+      clearPaletteUrl();
     } catch (err) {
       if (err instanceof InvalidColorsQuantityError) {
         toast.error(`Can't generate palette with ${err.message}`);
       }
     }
+  }
+
+  function generateAddColor() {
+    const len = palette.colors.length;
+    if (len >= PaletteColorsLimit.MAX || len <= PaletteColorsLimit.MIN) {
+      return;
+    }
+    return () => {
+      palette.addColor(getRandomColor());
+      setPalette(palette.clone());
+    };
   }
 
   function paletteCb(palette: Palette) {
@@ -73,6 +90,7 @@ function App() {
           lockedColors={lockedColors}
           lockUnlockColorGenerator={lockUnlockColorGenerator}
           palette={palette}
+          addColor={generateAddColor()}
         />
         {previewPalette && (
           <PreviewModal

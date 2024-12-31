@@ -1,4 +1,4 @@
-import Color from 'core/Color';
+import { getRandomColor } from 'core/utils/color';
 import React, { useMemo, useState } from 'react';
 import { mapKey } from 'utils/GenerateColorKey';
 
@@ -11,7 +11,7 @@ export default function RandomColorText({ text }: RandomColorTextProps) {
 
   const titleElements = useMemo<React.ReactNode[]>(() => {
     return letters.map((letter, index) => {
-      const color = Color.generateRandomColor();
+      const color = getRandomColor();
       return (
         <span
           key={mapKey(letter, index)}

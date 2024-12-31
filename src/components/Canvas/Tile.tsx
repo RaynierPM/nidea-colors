@@ -6,9 +6,15 @@ type TileProps = {
   color: Color;
   locked?: boolean;
   lockUnlock?: () => void;
+  addColor?: () => void;
 };
 
-export default function Tile({ color, locked, lockUnlock }: TileProps) {
+export default function Tile({
+  color,
+  locked,
+  lockUnlock,
+  addColor,
+}: TileProps) {
   return (
     <div
       className={styles.tile}
@@ -18,6 +24,11 @@ export default function Tile({ color, locked, lockUnlock }: TileProps) {
         lockUnlock={lockUnlock}
         copyableText={`#${color.hexColor}`}
       />
+      {addColor && (
+        <div className={styles.addColorAction} onClick={addColor}>
+          <i className="bi bi-plus-circle" />
+        </div>
+      )}
     </div>
   );
 }

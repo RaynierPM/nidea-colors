@@ -18,6 +18,35 @@
   min-width: 50px;
 }
 
+.tile > .addColorAction {
+  position: absolute;
+  top: 40%;
+  right: 40%;
+
+  width: 20%;
+  height: 20%;
+
+  z-index: 99;
+
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.1s ease-in-out,
+    font-size 0.4s ease-in-out 0.1s;
+
+  opacity: 0;
+}
+
+.tile:hover > .addColorAction {
+  opacity: 1;
+  font-size: 45px;
+}
+
 .tile > .labelContainer {
   width: 100%;
   padding: 0px 15px;

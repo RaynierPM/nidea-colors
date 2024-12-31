@@ -136,12 +136,4 @@ colorcrafter/
 Desarrollado con 💖 por [RaynierPM](https://github.com/RaynierPM) y mi Abii 💝.
 Inspirado en la magia del color y el diseño.
 
----
-
-## 📜 Licencia
-
-Este proyecto está licenciado bajo la **MIT License**. Consulta el archivo `LICENSE` para más detalles.
-
----
-
 ¡Gracias por usar **Nidea-colors**! 🌟 Haz que tus proyectos brillen con colores vibrantes y personalizados. 🖌️✨

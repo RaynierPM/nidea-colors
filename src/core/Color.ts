@@ -88,11 +88,6 @@ export default class Color {
     return hexColor;
   }
 
-  public static generateRandomColor(): Color {
-    const randomColor = Math.round(Math.random() * parseInt('FFFFFF', 16));
-    return new Color(randomColor);
-  }
-
   public static fromHexColor(hexColor: string): Color {
     if (!this.isValidHexColor(hexColor)) {
       throw new InvalidHexColorError(hexColor);

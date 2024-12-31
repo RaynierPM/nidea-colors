@@ -46,4 +46,8 @@ export default class Palette {
     }
     return pallete;
   }
+
+  public clone(): Palette {
+    return Palette.fromJson(this.toString());
+  }
 }
