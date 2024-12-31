@@ -86,4 +86,12 @@
   display: flex;
   justify-content: end;
   gap: 3px;
+
+  opacity: 0;
+
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tile:hover .actions {
+  opacity: 1;
 }
