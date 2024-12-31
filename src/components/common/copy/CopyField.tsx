@@ -13,7 +13,7 @@ export default function CopyField({ text }: CopyFieldProps) {
 
   return (
     <div className={styles.clipboard}>
-      {text}
+      <p>{text}</p>
       <Button onClick={handleCopy} className={styles.copyButton}>
         <i className="bi-clipboard" />
       </Button>
