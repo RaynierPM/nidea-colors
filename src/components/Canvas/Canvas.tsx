@@ -4,13 +4,14 @@ import Tile from './Tile';
 import Color from 'core/Color';
 import { mapKey } from 'utils/GenerateColorKey';
 
-type LocUnlockColorGenerator = (color: Color) => () => void;
+type handleColorGenerator = (color: Color) => () => void;
 
 type CanvasProps = {
   palette: Palette;
   lockedColors?: Color[];
-  lockUnlockColorGenerator?: LocUnlockColorGenerator;
+  lockUnlockColorGenerator?: handleColorGenerator;
   addColor?: () => void;
+  removeColor?: handleColorGenerator;
 };
 
 export default function Canvas({
@@ -18,6 +19,7 @@ export default function Canvas({
   lockedColors,
   lockUnlockColorGenerator,
   addColor,
+  removeColor,
 }: CanvasProps) {
   return (
     <main className={styles.canvas}>
@@ -25,9 +27,12 @@ export default function Canvas({
         const lastItem = index === palette.colors.length - 1;
         return (
           <Tile
+            locked={lockedColors?.some(
+              lockedColor => lockedColor.hexColor === color.hexColor,
+            )}
             lockUnlock={lockUnlockColorGenerator?.(color)}
-            locked={lockedColors?.includes(color)}
             color={color}
+            removeColor={removeColor?.(color)}
             key={mapKey(color.hexColor, index)}
             addColor={lastItem ? addColor : undefined}
           />

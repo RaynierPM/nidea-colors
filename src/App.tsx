@@ -36,7 +36,7 @@ function App() {
 
   function generateNewPalette() {
     try {
-      setPalette(paletteGenerator(4, { lockedColors }));
+      setPalette(paletteGenerator(palette.colors.length, { lockedColors }));
       clearPaletteUrl();
     } catch (err) {
       if (err instanceof InvalidColorsQuantityError) {
@@ -47,13 +47,31 @@ function App() {
 
   function generateAddColor() {
     const len = palette.colors.length;
-    if (len >= PaletteColorsLimit.MAX || len <= PaletteColorsLimit.MIN) {
+    if (len >= PaletteColorsLimit.MAX) {
       return;
     }
     return () => {
       palette.addColor(getRandomColor());
       setPalette(palette.clone());
     };
+  }
+
+  function RemoveColor(color: Color) {
+    return () => {
+      if (lockedColors.includes(color)) {
+        lockUnlockColorGenerator(color)();
+      }
+      palette.removeColor(color);
+      setPalette(palette.clone());
+    };
+  }
+
+  function generateRemoveColor() {
+    const len = palette.colors.length;
+    if (len <= PaletteColorsLimit.MIN) {
+      return;
+    }
+    return RemoveColor;
   }
 
   function paletteCb(palette: Palette) {
@@ -91,6 +109,7 @@ function App() {
           lockUnlockColorGenerator={lockUnlockColorGenerator}
           palette={palette}
           addColor={generateAddColor()}
+          removeColor={generateRemoveColor()}
         />
         {previewPalette && (
           <PreviewModal

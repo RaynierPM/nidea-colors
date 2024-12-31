@@ -1,38 +1,34 @@
 import { copyToClipboard } from 'components/utils/copyToClipboard';
 import styles from './style.module.css';
 import { Tooltip } from 'antd';
+import { Actions } from './type';
 
 type LabelProps = {
   copyableText: string;
-  locked?: boolean;
-  lockUnlock?: () => void;
+  actions?: Actions[];
 };
 
-export default function TileActions({
-  copyableText: text,
-  locked,
-  lockUnlock,
-}: LabelProps) {
+export default function TileActions({ copyableText, actions }: LabelProps) {
   function handleCopy() {
-    copyToClipboard(text);
+    copyToClipboard(copyableText);
   }
-
-  const lockedUnlockedText = locked ? 'Unlock color' : 'Lock color';
 
   return (
     <div className={styles.labelContainer}>
       <Tooltip title="Copy to clipboard">
         <span className={styles.label} onClick={handleCopy}>
-          {text}
+          {copyableText}
         </span>
       </Tooltip>
-      {Boolean(lockUnlock) && (
+      {Boolean(actions) && (
         <div className={styles.actions}>
-          <Tooltip title={lockedUnlockedText}>
-            <span className={styles.action} onClick={lockUnlock}>
-              <i className={locked ? 'bi bi-lock-fill' : 'bi bi-unlock-fill'} />
-            </span>
-          </Tooltip>
+          {actions?.map(action => (
+            <Tooltip title={action.tooltip}>
+              <span className={styles.action} onClick={action.action}>
+                <i className={action.icon} />
+              </span>
+            </Tooltip>
+          ))}
         </div>
       )}
     </div>
