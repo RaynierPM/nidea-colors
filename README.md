@@ -133,9 +133,8 @@ colorcrafter/
 
 ## 🤝 Créditos
 
-Desarrollado con 💖 por [RaynierPM](https://github.com/RaynierPM).
+Desarrollado con 💖 por [RaynierPM](https://github.com/RaynierPM) y mi Abii 💝.
 Inspirado en la magia del color y el diseño.
-_Gracias mi vida 💖💝_
 
 ---
 
