@@ -3,12 +3,16 @@ import styles from './style.module.css';
 import { Tooltip } from 'antd';
 
 type LabelProps = {
-  text: string;
-  locked: boolean;
-  lockUnlock: () => void;
+  copyableText: string;
+  locked?: boolean;
+  lockUnlock?: () => void;
 };
 
-export default function TileActions({ text, locked, lockUnlock }: LabelProps) {
+export default function TileActions({
+  copyableText: text,
+  locked,
+  lockUnlock,
+}: LabelProps) {
   function handleCopy() {
     copyToClipboard(text);
   }
@@ -22,13 +26,15 @@ export default function TileActions({ text, locked, lockUnlock }: LabelProps) {
           {text}
         </span>
       </Tooltip>
-      <div className={styles.actions}>
-        <Tooltip title={lockedUnlockedText}>
-          <span className={styles.action} onClick={lockUnlock}>
-            <i className={locked ? 'bi bi-lock-fill' : 'bi bi-unlock-fill'} />
-          </span>
-        </Tooltip>
-      </div>
+      {Boolean(lockUnlock) && (
+        <div className={styles.actions}>
+          <Tooltip title={lockedUnlockedText}>
+            <span className={styles.action} onClick={lockUnlock}>
+              <i className={locked ? 'bi bi-lock-fill' : 'bi bi-unlock-fill'} />
+            </span>
+          </Tooltip>
+        </div>
+      )}
     </div>
   );
 }

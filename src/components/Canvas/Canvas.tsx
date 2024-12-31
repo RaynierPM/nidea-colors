@@ -8,8 +8,8 @@ type LocUnlockColorGenerator = (color: Color) => () => void;
 
 type CanvasProps = {
   palette: Palette;
-  lockedColors: Color[];
-  lockUnlockColorGenerator: LocUnlockColorGenerator;
+  lockedColors?: Color[];
+  lockUnlockColorGenerator?: LocUnlockColorGenerator;
 };
 
 export default function Canvas({
@@ -21,8 +21,8 @@ export default function Canvas({
     <main className={styles.canvas}>
       {palette.colors.map((color, index) => (
         <Tile
-          lockUnlock={lockUnlockColorGenerator(color)}
-          locked={lockedColors.includes(color)}
+          lockUnlock={lockUnlockColorGenerator?.(color)}
+          locked={lockedColors?.includes(color)}
           color={color}
           key={mapKey(color.hexColor, index)}
         />

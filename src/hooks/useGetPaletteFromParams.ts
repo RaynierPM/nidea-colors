@@ -1,30 +1,41 @@
 import { toast } from 'sonner';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Palette from 'core/palette';
 import { InvalidHexColorsJsonError } from 'core/errors/Palette';
 
-export default function useGetPaletteFromParams(
-  paletteCb: (palette: Palette) => void,
-) {
+export default function useGetPaletteFromParams() {
+  const [visible, setVisible] = useState(false);
+  const [palette, setPalette] = useState<Palette | null>(null);
+
+  function handleClosePreviewPalette() {
+    setVisible(false);
+  }
+
   useEffect(() => {
     const path = window.location.pathname;
-    const hexColors = path.split('/').slice(1);
+    if (path.startsWith('/shared')) {
+      const hexColors = path.split('/').slice(2);
 
-    const notValidUrl = hexColors[0] === '';
-    if (notValidUrl) {
-      return;
-    }
+      const notValidUrl = hexColors[0] === '';
+      if (notValidUrl) {
+        return;
+      }
 
-    let palette: Palette | null = null;
-    try {
-      const paletteJson = JSON.stringify({ colors: hexColors });
-      palette = Palette.fromJson(paletteJson);
-      paletteCb(palette);
-    } catch (err) {
-      if (err instanceof InvalidHexColorsJsonError) {
-        toast.error('Invalid url, please check the format');
+      try {
+        const paletteJson = JSON.stringify({ colors: hexColors });
+        setPalette(Palette.fromJson(paletteJson));
+        setVisible(true);
+      } catch (err) {
+        if (err instanceof InvalidHexColorsJsonError) {
+          toast.error('Invalid url, please check the format');
+        }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return {
+    previewVisible: visible,
+    handleClosePreviewPalette,
+    previewPalette: palette,
+  };
 }

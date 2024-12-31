@@ -5,11 +5,11 @@ import Palette from './core/palette';
 import { toast, Toaster } from 'sonner';
 import useGetPaletteFromParams from './hooks/useGetPaletteFromParams';
 import { getPaletteUrl } from './core/utils/paletteUrl';
-import useUpdateUrlByPalette from './hooks/useUpdateUrlByPalette';
 import Color from 'core/Color';
 import { InvalidColorsQuantityError } from 'core/errors/PaletteFactory';
 import PaletteFactory, { type PaletteGenerator } from 'core/PaletteFactory';
 import { PalleteGenerationType } from 'core/types';
+import PreviewModal from 'components/PalettePreview/PreviewModal';
 
 function App() {
   const [paletteType] = useState<PalleteGenerationType>(
@@ -23,7 +23,6 @@ function App() {
   );
 
   const [lockedColors, setLockedColors] = useState<Color[]>([]);
-  const [generatedByUser, setGeneratedByUser] = useState(false);
   const [palette, setPalette] = useState<Palette>(
     paletteGenerator(4, { lockedColors }),
   );
@@ -33,7 +32,6 @@ function App() {
   function generateNewPalette() {
     try {
       setPalette(paletteGenerator(4, { lockedColors }));
-      setGeneratedByUser(true);
     } catch (err) {
       if (err instanceof InvalidColorsQuantityError) {
         toast.error(`Can't generate palette with ${err.message}`);
@@ -61,8 +59,8 @@ function App() {
       }
     };
   }
-  useUpdateUrlByPalette(palette, generatedByUser);
-  useGetPaletteFromParams(paletteCb);
+  const { previewPalette, previewVisible, handleClosePreviewPalette } =
+    useGetPaletteFromParams();
 
   return (
     <>
@@ -76,6 +74,14 @@ function App() {
           lockUnlockColorGenerator={lockUnlockColorGenerator}
           palette={palette}
         />
+        {previewPalette && (
+          <PreviewModal
+            showModal={previewVisible}
+            setPalette={paletteCb}
+            palette={previewPalette}
+            closePreview={handleClosePreviewPalette}
+          />
+        )}
       </div>
       <Toaster />
     </>

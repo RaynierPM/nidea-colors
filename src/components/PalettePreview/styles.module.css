@@ -1,0 +1,15 @@
+.previewContainer {
+  width: 100%;
+  min-height: 200px;
+  height: 20vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}

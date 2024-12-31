@@ -4,8 +4,8 @@ import styles from './style.module.css';
 
 type TileProps = {
   color: Color;
-  locked: boolean;
-  lockUnlock: () => void;
+  locked?: boolean;
+  lockUnlock?: () => void;
 };
 
 export default function Tile({ color, locked, lockUnlock }: TileProps) {
@@ -16,7 +16,7 @@ export default function Tile({ color, locked, lockUnlock }: TileProps) {
       <TileActions
         locked={locked}
         lockUnlock={lockUnlock}
-        text={`#${color.hexColor}`}
+        copyableText={`#${color.hexColor}`}
       />
     </div>
   );
