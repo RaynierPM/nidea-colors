@@ -1,50 +1,146 @@
-# React + TypeScript + Vite
+# 🎨 ColorCrafter: Crea Paletas de Colores Únicas e Increíbles
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+¡Bienvenido a **ColorCrafter**! 🌈 Una elegante aplicación web creada con **React** que despierta tu creatividad generando paletas de colores únicas, perfectas para diseñadores, artistas y cualquier persona que ame el color.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Características
 
-## Expanding the ESLint configuration
+- **🎲 Generación Aleatoria**: Crea paletas sorprendentes con un solo clic.
+- **🌈 Diversos Tipos de Paletas**: Elige entre paletas monocromáticas, análogas, complementarias, triádicas y más. (Coming soon)
+- **🔖 Compartir Paletas**: Guarda y comparte tus creaciones con amigos, colegas o en redes sociales.
+- **🖌️ Personalización**: Ajusta colores individualmente para lograr la combinación perfecta.
+- **⚡ Rápido y Dinámico**: Gracias a React, la experiencia es fluida y rápida.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Tecnologías
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Esta aplicación ha sido desarrollada utilizando las siguientes tecnologías:
+
+- **React**: Framework de JavaScript para interfaces de usuario.
+- **CSS Moderno**: Diseños elegantes y responsivos.
+- **Context API**: Manejo eficiente del estado global de la aplicación.
+- **Single page**: Navegación fluida una página.
+
+---
+
+## 🚀 Instalación y Uso (DEV)
+
+1. Clona este repositorio:
+
+   ```bash
+   git clone https://github.com/RaynierPM/nidea-colors
+   ```
+
+2. Navega al directorio del proyecto:
+
+   ```bash
+   cd nidea-colors
+   ```
+
+3. Instala las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+4. Inicia la aplicación:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Abre tu navegador y visita `http://localhost:5173`.
+
+---
+
+---
+
+## 🚀 Instalación y Uso
+
+1. Clona este repositorio:
+
+   ```bash
+   git clone https://github.com/RaynierPM/nidea-colors
+   ```
+
+2. Navega al directorio del proyecto:
+
+   ```bash
+   cd nidea-colors
+   ```
+
+3. Instala las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+4. Crea el build:
+
+   ```bash
+   npm run build;
+   ```
+
+5. Instala serve
+
+```bash
+npm i -g serve
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+6.Ejecuta el proyecto
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```Bash
+serve ./dist -l 5173
 ```
+
+7. Abre tu navegador y visita `http://localhost:5173`.
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+colorcrafter/
+├── public/
+├── src/
+│   ├── components/      # Componentes reutilizables
+│   ├── core/            # Colores y paletas
+│   ├── utils/           # Funciones auxiliares
+│   ├── App.js           # Handler de la aplicacion
+|   └── main.js          # Punto de entrada principal
+└── README.md
+```
+
+---
+
+## 🖼️ Capturas de Pantalla
+
+🌟 **¡Muy pronto!**
+
+---
+
+## 📢 Contribuciones
+
+¿Tienes una idea genial para mejorar **ColorCrafter**? ¡Nos encantaría escucharla! Siéntete libre de:
+
+1. Hacer un fork del proyecto.
+2. Crear una nueva rama con tu funcionalidad.
+3. Enviar un pull request.
+
+---
+
+## 🤝 Créditos
+
+Desarrollado con 💖 por [RaynierPM](https://github.com/RaynierPM). Inspirado en la magia del color y el diseño.
+
+---
+
+## 📜 Licencia
+
+Este proyecto está licenciado bajo la **MIT License**. Consulta el archivo `LICENSE` para más detalles.
+
+---
+
+¡Gracias por usar **Nidea-colors**! 🌟 Haz que tus proyectos brillen con colores vibrantes y personalizados. 🖌️✨
