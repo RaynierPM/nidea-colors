@@ -1,17 +1,9 @@
 .controlPanel {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
 
   padding: 5px 10px;
-}
-
-@media only screen and (min-width: 576px) {
-  .controlPanel {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 }
 
 .buttons {
