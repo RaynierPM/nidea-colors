@@ -2,6 +2,7 @@ import Palette from 'core/palette';
 import styles from './style.module.css';
 import Tile from './Tile';
 import Color from 'core/Color';
+import { mapKey } from 'utils/GenerateColorKey';
 
 type LocUnlockColorGenerator = (color: Color) => () => void;
 
@@ -18,12 +19,12 @@ export default function Canvas({
 }: CanvasProps) {
   return (
     <main className={styles.canvas}>
-      {palette.colors.map(color => (
+      {palette.colors.map((color, index) => (
         <Tile
           lockUnlock={lockUnlockColorGenerator(color)}
           locked={lockedColors.includes(color)}
           color={color}
-          key={color.hexColor}
+          key={mapKey(color.hexColor, index)}
         />
       ))}
     </main>
