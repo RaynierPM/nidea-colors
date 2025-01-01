@@ -1,6 +1,5 @@
-import { ColorFactory } from 'core/PaletteFactory';
-import { PaletteGenerationType } from 'core/types';
+import Color from 'core/Color';
 
 export function getRandomColor() {
-  return ColorFactory.getColor({ type: PaletteGenerationType.RANDOM });
+  return Color.generateRandomColor();
 }

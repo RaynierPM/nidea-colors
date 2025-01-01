@@ -2,7 +2,6 @@ import Color from './Color';
 import { InvalidColorsQuantityError } from './errors/PaletteFactory';
 import Palette from './palette';
 import {
-  ColorGenerationOptions,
   PaletteEditionOptions,
   PaletteEditType,
   PaletteGenerationType,
@@ -37,9 +36,7 @@ export default class PaletteFactory {
 
     if (!colorGenerated && lockedColors.length >= 0) {
       if (!lockedColors.length) {
-        palette.addColor(
-          ColorFactory.getColor({ type: PaletteGenerationType.RANDOM }),
-        );
+        palette.addColor(Color.generateRandomColor());
       } else {
         palette.addColor(...lockedColors);
       }
@@ -48,9 +45,7 @@ export default class PaletteFactory {
         if (i < lockedColors.length) {
           palette.addColor(lockedColors[i]);
         } else {
-          palette.addColor(
-            ColorFactory.getColor({ type: PaletteGenerationType.RANDOM }),
-          );
+          palette.addColor(Color.generateRandomColor());
         }
       }
     }
@@ -79,38 +74,16 @@ export default class PaletteFactory {
   }
 
   static editPalette(options: PaletteEditionOptions): Palette {
-    const { type, palette, color } = options;
+    const { type, palette, baseColor } = options;
     switch (type) {
       case PaletteEditType.ADD_COLOR:
-        palette.addColor(color);
-        return palette.clone();
+        palette.addColor(baseColor);
+        return palette;
       case PaletteEditType.REMOVE_COLOR:
-        palette.removeColor(color);
+        palette.removeColor(baseColor);
         return palette;
       default:
         return palette;
     }
-  }
-}
-
-export abstract class ColorFactory {
-  private static generateRandomColor(): Color {
-    const randomColor = Math.round(Math.random() * parseInt('FFFFFF', 16));
-    return new Color(randomColor);
-  }
-
-  static getColor(options: ColorGenerationOptions): Color {
-    switch (options.type) {
-      case PaletteGenerationType.RANDOM:
-        return ColorFactory.generateRandomColor();
-      case PaletteGenerationType.MONOCHROMATIC:
-        return ColorFactory.generateMonochromaticColor();
-      default:
-        return ColorFactory.generateRandomColor();
-    }
-  }
-
-  private static generateMonochromaticColor(): Color {
-    return new Color(10);
   }
 }

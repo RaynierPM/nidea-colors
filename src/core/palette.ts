@@ -21,7 +21,7 @@ export default class Palette {
   }
 
   public addColor(...colors: Color[]) {
-    this._colors.push(...colors);
+    this._colors = [...this._colors, ...colors];
   }
 
   public removeColor(color: Color) {

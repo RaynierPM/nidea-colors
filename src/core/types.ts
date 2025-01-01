@@ -19,11 +19,5 @@ export enum PaletteColorsLimit {
 export interface PaletteEditionOptions {
   type: PaletteEditType;
   palette: Palette;
-  color: Color;
-}
-
-export interface ColorGenerationOptions {
-  type: PaletteGenerationType;
-  monoChromaticColorBase?: Color;
-  colors?: Color[];
+  baseColor: Color;
 }

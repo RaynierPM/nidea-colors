@@ -88,17 +88,6 @@ export default class Color {
     return hexColor;
   }
 
-  public static fromHexColor(hexColor: string): Color {
-    if (!this.isValidHexColor(hexColor)) {
-      throw new InvalidHexColorError(hexColor);
-    }
-    return new Color(parseInt(hexColor, 16));
-  }
-
-  public static isValidHexColor(hexColor: string): boolean {
-    return hexColorRegex.test(hexColor.toLocaleLowerCase());
-  }
-
   private fromHexNumberToColor(number: number) {
     const hexColor = number.toString(16).padEnd(6, '0');
     if (!Color.isValidHexColor(hexColor)) {
@@ -130,5 +119,21 @@ export default class Color {
         }
       }
     }
+  }
+
+  public static fromHexColor(hexColor: string): Color {
+    if (!this.isValidHexColor(hexColor)) {
+      throw new InvalidHexColorError(hexColor);
+    }
+    return new Color(parseInt(hexColor, 16));
+  }
+
+  public static isValidHexColor(hexColor: string): boolean {
+    return hexColorRegex.test(hexColor.toLocaleLowerCase());
+  }
+
+  public static generateRandomColor(): Color {
+    const randomColor = Math.round(Math.random() * parseInt('FFFFFF', 16));
+    return new Color(randomColor);
   }
 }
