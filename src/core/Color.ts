@@ -9,7 +9,7 @@ type ColorsOptions = {
   red: number;
   green: number;
   blue: number;
-  alpha: number;
+  alpha?: number;
 };
 
 export default class Color {
@@ -17,10 +17,10 @@ export default class Color {
     if (typeof colorValues === 'number') {
       this.fromHexNumberToColor(colorValues);
     } else {
-      this._red = colorValues.red;
-      this._green = colorValues.green;
-      this.blue = colorValues.blue;
-      this.alpha = colorValues.alpha;
+      this._red = Math.round(colorValues.red);
+      this._green = Math.round(colorValues.green);
+      this._blue = Math.round(colorValues.blue);
+      this._alpha = Math.round(colorValues.alpha || 255);
     }
   }
 
@@ -83,13 +83,13 @@ export default class Color {
       if (value < 0 || value > 255) {
         throw new InvalidHexColorError(value.toString());
       }
-      hexColor += value.toString(16).padEnd(2, '0');
+      hexColor += value.toString(16).padStart(2, '0');
     }
     return hexColor;
   }
 
   private fromHexNumberToColor(number: number) {
-    const hexColor = number.toString(16).padEnd(6, '0');
+    const hexColor = number.toString(16).padStart(6, '0');
     if (!Color.isValidHexColor(hexColor)) {
       throw new InvalidHexColorError(hexColor);
     }
@@ -137,3 +137,15 @@ export default class Color {
     return new Color(randomColor);
   }
 }
+
+// export class HSL {
+//   private _hue: number;
+//   private _saturation: number;
+//   private _lightness: number;
+
+//   constructor(hue: number, saturation: number, lightness: number) {
+//     this._hue = hue;
+//     this._saturation = saturation;
+//     this._lightness = lightness;
+//   }
+// }

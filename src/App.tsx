@@ -6,24 +6,36 @@ import { toast, Toaster } from 'sonner';
 import useGetPaletteFromParams from './hooks/useGetPaletteFromParams';
 import { getPaletteUrl } from './core/utils/paletteUrl';
 import Color from 'core/Color';
-import { InvalidColorsQuantityError } from 'core/errors/PaletteFactory';
+import {
+  InvalidColorsQuantityError,
+  InvalidParametersError,
+} from 'core/errors/PaletteFactory';
 import PaletteFactory, { type PaletteGenerator } from 'core/PaletteFactory';
 import {
   PaletteColorsLimit,
-  PaletteGenerationType as PaletteGenerationType,
+  PaletteGenerationOptions,
+  PaletteType as PaletteType,
 } from 'core/types';
 import PreviewModal from 'components/PalettePreview/PreviewModal';
 import { clearPaletteUrl } from 'utils/url';
 import { getRandomColor } from 'core/utils/color';
 
-function App() {
-  const [paletteType] = useState<PaletteGenerationType>(
-    PaletteGenerationType.RANDOM,
-  );
+const DEFAULT_PALETTE_TYPE = PaletteType.RANDOM;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+function App() {
+  const [paletteType] = useState<PaletteType>(DEFAULT_PALETTE_TYPE);
+
   const paletteGenerator = useCallback<PaletteGenerator>(
-    PaletteFactory.getPaletteGenerator(paletteType),
+    (cq: number, lo: PaletteGenerationOptions) => {
+      try {
+        return PaletteFactory.getPaletteGenerator(paletteType)(cq, lo);
+      } catch (err) {
+        if (err instanceof InvalidParametersError) {
+          toast.error(err.message);
+        }
+        return PaletteFactory.getPaletteGenerator(PaletteType.RANDOM)(cq, lo);
+      }
+    },
     [paletteType],
   );
 
@@ -40,7 +52,9 @@ function App() {
       clearPaletteUrl();
     } catch (err) {
       if (err instanceof InvalidColorsQuantityError) {
-        toast.error(`Can't generate palette with ${err.message}`);
+        toast.error(err.message);
+      } else if (err instanceof InvalidParametersError) {
+        toast.error(`Invalid colors parameters`);
       }
     }
   }
@@ -96,6 +110,8 @@ function App() {
   }
   const { previewPalette, previewVisible, handleClosePreviewPalette } =
     useGetPaletteFromParams();
+
+  console.log(palette);
 
   return (
     <>

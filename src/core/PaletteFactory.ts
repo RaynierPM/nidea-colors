@@ -1,15 +1,18 @@
 import Color from './Color';
-import { InvalidColorsQuantityError } from './errors/PaletteFactory';
+import MonochromaticMixer from './ColorMixer/MonochromaticMixer';
+import { ColorMixerOptions } from './ColorMixer/types';
+import {
+  InvalidColorsQuantityError,
+  InvalidParametersError,
+} from './errors/PaletteFactory';
 import Palette from './palette';
 import {
+  PaletteColorsLimit,
   PaletteEditionOptions,
   PaletteEditType,
-  PaletteGenerationType,
+  PaletteGenerationOptions,
+  PaletteType,
 } from './types';
-
-export declare type PaletteGenerationOptions = {
-  lockedColors: Color[];
-};
 
 export type PaletteGenerator = (
   colorsQuantity: number,
@@ -19,7 +22,6 @@ export type PaletteGenerator = (
 const PaletteGenerationOptionsDefault: Readonly<PaletteGenerationOptions> = {
   lockedColors: [],
 };
-
 export default class PaletteFactory {
   private static generateRandomPalette(
     colorsQuantity: number,
@@ -28,9 +30,10 @@ export default class PaletteFactory {
     const palette = new Palette();
     const { lockedColors } = { ...PaletteGenerationOptionsDefault, ...options };
 
-    if (lockedColors.length > colorsQuantity) {
-      throw new InvalidColorsQuantityError(colorsQuantity);
-    }
+    validatePaletteGeneration({
+      colorsQuantity,
+      lockedColors: lockedColors.length,
+    });
 
     const colorGenerated = colorsQuantity - lockedColors.length;
 
@@ -53,11 +56,11 @@ export default class PaletteFactory {
     return palette;
   }
 
-  static getPaletteGenerator(type?: PaletteGenerationType): PaletteGenerator {
+  static getPaletteGenerator(type?: PaletteType): PaletteGenerator {
     switch (type) {
-      case PaletteGenerationType.RANDOM:
+      case PaletteType.RANDOM:
         return PaletteFactory.generateRandomPalette;
-      case PaletteGenerationType.MONOCHROMATIC:
+      case PaletteType.MONOCHROMATIC:
         return PaletteFactory.generateMonochromaticPalette;
       default:
         return PaletteFactory.generateRandomPalette;
@@ -68,9 +71,25 @@ export default class PaletteFactory {
     colorsQuantity: number,
     generationOptions: PaletteGenerationOptions,
   ): Palette {
-    console.log(generationOptions);
-    console.log(colorsQuantity);
-    return new Palette();
+    const { lockedColors } = generationOptions;
+    validatePaletteGeneration({
+      colorsQuantity,
+      lockedColors: lockedColors.length,
+      needBaseColor: true,
+    });
+
+    const baseColor = lockedColors[0];
+
+    const colorMixerOption: ColorMixerOptions = {
+      baseColor,
+      colorsQuantity,
+    };
+
+    const colorMixer = new MonochromaticMixer(colorMixerOption);
+
+    const colors = colorMixer.generatePalette();
+
+    return new Palette(colors);
   }
 
   static editPalette(options: PaletteEditionOptions): Palette {
@@ -85,5 +104,30 @@ export default class PaletteFactory {
       default:
         return palette;
     }
+  }
+}
+
+function validatePaletteGeneration({
+  colorsQuantity,
+  lockedColors,
+  needBaseColor = false,
+}: {
+  colorsQuantity: number;
+  lockedColors: number;
+  needBaseColor?: boolean;
+}): void {
+  if (
+    colorsQuantity < PaletteColorsLimit.MIN ||
+    colorsQuantity > PaletteColorsLimit.MAX
+  ) {
+    throw new InvalidColorsQuantityError(colorsQuantity);
+  }
+
+  if (lockedColors > colorsQuantity) {
+    throw new InvalidParametersError();
+  }
+
+  if (needBaseColor && lockedColors != 1) {
+    throw new InvalidParametersError();
   }
 }

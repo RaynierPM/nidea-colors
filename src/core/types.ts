@@ -1,7 +1,7 @@
 import Color from './Color';
 import Palette from './palette';
 
-export enum PaletteGenerationType {
+export enum PaletteType {
   RANDOM,
   MONOCHROMATIC,
 }
@@ -15,6 +15,10 @@ export enum PaletteColorsLimit {
   MAX = 6,
   MIN = 2,
 }
+
+export declare type PaletteGenerationOptions = {
+  lockedColors: Color[];
+};
 
 export interface PaletteEditionOptions {
   type: PaletteEditType;
