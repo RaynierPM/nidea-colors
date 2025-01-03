@@ -25,6 +25,10 @@ import { paletteTypes } from 'utils/paletteType';
 
 const DEFAULT_PALETTE_TYPE = PaletteType.RANDOM;
 
+const DEFAULT_PALETTE = PaletteFactory.getPaletteGenerator(
+  DEFAULT_PALETTE_TYPE,
+)(4, { lockedColors: [] });
+
 function App() {
   const [paletteType, setPaletteType] =
     useState<PaletteType>(DEFAULT_PALETTE_TYPE);
@@ -44,9 +48,7 @@ function App() {
   );
 
   const [lockedColors, setLockedColors] = useState<Color[]>([]);
-  const [palette, setPalette] = useState<Palette>(
-    paletteGenerator(4, { lockedColors }),
-  );
+  const [palette, setPalette] = useState<Palette>(DEFAULT_PALETTE);
 
   const paletteUrl = getPaletteUrl(palette);
 
