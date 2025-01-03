@@ -18,6 +18,7 @@ export enum PaletteColorsLimit {
 
 export declare type PaletteGenerationOptions = {
   lockedColors: Color[];
+  baseColor?: Color;
 };
 
 export interface PaletteEditionOptions {

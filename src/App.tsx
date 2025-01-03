@@ -34,7 +34,7 @@ function App() {
         return PaletteFactory.getPaletteGenerator(paletteType)(cq, lo);
       } catch (err) {
         if (err instanceof InvalidParametersError) {
-          toast.error(err.message);
+          toast.error('Going back to random palette');
         }
         return PaletteFactory.getPaletteGenerator(PaletteType.RANDOM)(cq, lo);
       }
@@ -147,6 +147,7 @@ function App() {
         )}
       </div>
       <PaletteSettings
+        generateNewPalette={generateNewPalette}
         changleScheme={setPaletteType}
         selectedScheme={paletteType}
         visible={showSettings}

@@ -8,7 +8,7 @@ import { mapKey } from 'utils/GenerateColorKey';
 
 type RandomColorTextProps = {
   text: string;
-  colorType: PaletteType;
+  colorType?: PaletteType;
 };
 
 export default function RandomColorText({ text }: RandomColorTextProps) {
@@ -29,7 +29,7 @@ export default function RandomColorText({ text }: RandomColorTextProps) {
       const color = colors[index];
       return (
         <span
-          key={mapKey(letter, index)}
+          key={mapKey(color.hexColor, index)}
           style={{ color: `#${color.hexColor}` }}
         >
           {letter}

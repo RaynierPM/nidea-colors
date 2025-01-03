@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import styles from './style.module.css';
 import DrawerComponent from 'components/common/drawer/Drawer';
-import { Collapse, Select, Typography } from 'antd';
+import { Button, Collapse, Select, Typography } from 'antd';
 import { PaletteType } from 'core/types';
 
 type PaletteSettingsProps = {
   visible: boolean;
   selectedScheme: PaletteType;
   changleScheme: (scheme: PaletteType) => void;
+  generateNewPalette: () => void;
 };
 
 type AvailablePalette = {
@@ -30,6 +31,7 @@ export default function PaletteSettings({
   visible,
   selectedScheme,
   changleScheme,
+  generateNewPalette,
 }: PaletteSettingsProps) {
   const [visibleSettings, setVisibleSettings] = useState(false);
 
@@ -75,6 +77,8 @@ export default function PaletteSettings({
               Note: If lock another color and had been selected a color scheme,
               the colors will be reseted to the default palette Settings
               (Random).
+              <br />
+              <i>We are working to improve it...</i>
             </Typography.Paragraph>
           </Collapse.Panel>
           <Collapse.Panel header="Advanced Settings" key="2">
@@ -85,6 +89,15 @@ export default function PaletteSettings({
             </div>
           </Collapse.Panel>
         </Collapse>
+        <Button
+          onClick={() => {
+            generateNewPalette();
+            handleClose();
+          }}
+          style={{ width: '100%', marginTop: 10 }}
+        >
+          Generate new palette <i className="bi bi-arrow-repeat" />
+        </Button>
       </DrawerComponent>
     </>
   );
