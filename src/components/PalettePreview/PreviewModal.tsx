@@ -1,4 +1,4 @@
-import ModalComponent from 'components/modal/Modal';
+import ModalComponent from 'components/common/modal/Modal';
 import Preview from './Preview';
 import Palette from 'core/palette';
 import styles from './styles.module.css';

@@ -19,11 +19,14 @@ import {
 import PreviewModal from 'components/PalettePreview/PreviewModal';
 import { clearPaletteUrl } from 'utils/url';
 import { getRandomColor } from 'core/utils/color';
+import useShowPaletteSettings from 'hooks/useShowPaletteSettings';
+import PaletteSettings from 'components/PaletteSettings';
 
 const DEFAULT_PALETTE_TYPE = PaletteType.RANDOM;
 
 function App() {
-  const [paletteType] = useState<PaletteType>(DEFAULT_PALETTE_TYPE);
+  const [paletteType, setPaletteType] =
+    useState<PaletteType>(DEFAULT_PALETTE_TYPE);
 
   const paletteGenerator = useCallback<PaletteGenerator>(
     (cq: number, lo: PaletteGenerationOptions) => {
@@ -111,7 +114,14 @@ function App() {
   const { previewPalette, previewVisible, handleClosePreviewPalette } =
     useGetPaletteFromParams();
 
-  console.log(palette);
+  const goBackToRamdom = useCallback(() => {
+    setPaletteType(PaletteType.RANDOM);
+  }, []);
+
+  const { visible: showSettings } = useShowPaletteSettings(
+    lockedColors,
+    goBackToRamdom,
+  );
 
   return (
     <>
@@ -136,6 +146,7 @@ function App() {
           />
         )}
       </div>
+      <PaletteSettings visible={showSettings} />
       <Toaster />
     </>
   );
