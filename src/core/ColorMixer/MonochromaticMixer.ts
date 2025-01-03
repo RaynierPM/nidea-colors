@@ -1,5 +1,5 @@
 import Color from 'core/Color';
-import { ColorMixerOptions } from './types';
+import { ColorMixerOptions } from './types.d';
 import ColorMixer from './base';
 
 export default class MonochromaticMixer extends ColorMixer {
@@ -16,10 +16,11 @@ export default class MonochromaticMixer extends ColorMixer {
 
     for (let i = 1; i < this.colorsQuantity; i++) {
       const randomAngle = Math.floor(Math.random() * ANGLE_RANGE) + ANGLE_MIN;
+
       const randomHSL = {
         hue: randomAngle,
-        saturation: this.getRandomPercent(0.65),
-        luminosity: this.getRandomPercent(0.65),
+        saturation: this.luminosity.get(),
+        luminosity: this.saturation.get(),
       };
       colors.push(this.HSLToRGB(randomHSL));
     }

@@ -1,21 +1,37 @@
+import MonochromaticMixer from 'core/ColorMixer/MonochromaticMixer';
+import { ColorMixerOptions, PercentLevel } from 'core/ColorMixer/types.d';
+import Factor from 'core/ColorMixer/utils/RandomFactor';
+import { PaletteType } from 'core/types';
 import { getRandomColor } from 'core/utils/color';
 import React, { useMemo, useState } from 'react';
 import { mapKey } from 'utils/GenerateColorKey';
 
 type RandomColorTextProps = {
   text: string;
+  colorType: PaletteType;
 };
 
 export default function RandomColorText({ text }: RandomColorTextProps) {
   const [letters] = useState<string[]>(getLetters(text));
 
   const titleElements = useMemo<React.ReactNode[]>(() => {
+    const len = letters.length;
+
+    const options: ColorMixerOptions = {
+      baseColor: getRandomColor(),
+      colorsQuantity: len,
+      luminosity: new Factor(0.5, PercentLevel.ABSOLUTE),
+      saturation: new Factor(0.2),
+    };
+    const colors = new MonochromaticMixer(options).generatePalette();
+
     return letters.map((letter, index) => {
-      const color = getRandomColor();
+      const color = colors[index];
       return (
         <span
           key={mapKey(letter, index)}
-          style={{ color: `#${color.hexColor}` }}>
+          style={{ color: `#${color.hexColor}` }}
+        >
           {letter}
         </span>
       );

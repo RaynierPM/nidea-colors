@@ -1,8 +1,11 @@
 import Color from 'core/Color';
+import Factor from './utils/RandomFactor';
 
 export interface ColorMixerOptions {
   baseColor: Color;
   colorsQuantity: number;
+  luminosity?: Factor;
+  saturation?: Factor;
 }
 
 export type HSL = {
@@ -15,4 +18,5 @@ export enum PercentLevel {
   LOW,
   MEDIUM,
   HIGH,
+  ABSOLUTE,
 }

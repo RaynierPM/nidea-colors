@@ -1,16 +1,26 @@
 import ColorMixerI from './interface/ColorMixer';
-import { ColorMixerOptions, HSL, PercentLevel } from './types.d';
+import { ColorMixerOptions, HSL } from './types.d';
 import Color from 'core/Color';
+import Factor from './utils/RandomFactor';
 
 export default abstract class ColorMixer implements ColorMixerI {
   baseColor: Color;
   colorsQuantity: number;
+  luminosity: Factor = new Factor(0.65);
+  saturation: Factor = new Factor(0.65);
 
   private readonly MAX_COLOR_VALUE = 255;
 
   constructor(options: ColorMixerOptions) {
     this.baseColor = options.baseColor;
     this.colorsQuantity = options.colorsQuantity;
+    if (options.luminosity) {
+      this.luminosity = options.luminosity;
+    }
+
+    if (options.saturation) {
+      this.saturation = options.saturation;
+    }
   }
 
   abstract generatePalette(): Color[];
@@ -95,27 +105,5 @@ export default abstract class ColorMixer implements ColorMixerI {
 
   protected normalizeAngle(angle: number) {
     return Math.round(((angle % 360) + 360) % 360);
-  }
-
-  protected getRandomPercent(
-    dispersion = 1,
-    percentLevel = PercentLevel.MEDIUM,
-  ) {
-    if (dispersion > 1) {
-      dispersion = 1;
-    }
-    let min = 0;
-    switch (percentLevel) {
-      case PercentLevel.HIGH:
-        min = 1 - dispersion;
-        break;
-      case PercentLevel.MEDIUM:
-        min = (1 - dispersion) / 2;
-        break;
-      case PercentLevel.LOW:
-        min = 0;
-        break;
-    }
-    return Math.random() * dispersion + min;
   }
 }
