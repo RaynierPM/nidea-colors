@@ -64,8 +64,6 @@ export default abstract class ColorMixer implements ColorMixerI {
     const g = color.green / this.MAX_COLOR_VALUE;
     const b = color.blue / this.MAX_COLOR_VALUE;
 
-    console.log(r, g, b);
-
     const MAX = Math.max(r, g, b);
     const MIN = Math.min(r, g, b);
 

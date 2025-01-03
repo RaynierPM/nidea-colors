@@ -62,6 +62,20 @@ export default function PaletteSettings({
               onChange={changleScheme}
               style={{ width: '100%' }}
             />
+
+            <Typography.Paragraph
+              italic
+              style={{
+                marginTop: 20,
+                border: '1px solid #ccc',
+                padding: '5px',
+                borderRadius: 5,
+              }}
+            >
+              Note: If lock another color and had been selected a color scheme,
+              the colors will be reseted to the default palette Settings
+              (Random).
+            </Typography.Paragraph>
           </Collapse.Panel>
           <Collapse.Panel header="Advanced Settings" key="2">
             <div className={styles.comingSoon}>
