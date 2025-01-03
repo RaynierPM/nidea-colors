@@ -21,6 +21,7 @@ import { clearPaletteUrl } from 'utils/url';
 import { getRandomColor } from 'core/utils/color';
 import useShowPaletteSettings from 'hooks/useShowPaletteSettings';
 import PaletteSettings from 'components/PaletteSettings';
+import { paletteTypes } from 'utils/paletteType';
 
 const DEFAULT_PALETTE_TYPE = PaletteType.RANDOM;
 
@@ -75,7 +76,7 @@ function App() {
 
   function RemoveColor(color: Color) {
     return () => {
-      if (lockedColors.includes(color)) {
+      if (lockedColors.some(lc => lc.hexColor === color.hexColor)) {
         lockUnlockColorGenerator(color)();
       }
       palette.removeColor(color);
@@ -127,6 +128,7 @@ function App() {
     <>
       <div className="app">
         <ControlPanel
+          paletteType={paletteTypes[paletteType]}
           paletteUrl={paletteUrl}
           generateNewPalette={generateNewPalette}
         />

@@ -1,6 +1,9 @@
 import Color from './Color';
+import AnalogousMixer from './ColorMixer/AnalogousMixer';
+import ComplementaryMixer from './ColorMixer/ComplementaryMixer';
 import MonochromaticMixer from './ColorMixer/MonochromaticMixer';
-import { ColorMixerOptions } from './ColorMixer/types';
+import { ColorMixerOptions, PercentLevel } from './ColorMixer/types.d';
+import Factor from './ColorMixer/utils/RandomFactor';
 import {
   InvalidColorsQuantityError,
   InvalidParametersError,
@@ -62,6 +65,10 @@ export default class PaletteFactory {
         return PaletteFactory.generateRandomPalette;
       case PaletteType.MONOCHROMATIC:
         return PaletteFactory.generateMonochromaticPalette;
+      case PaletteType.ANALOGOUS:
+        return PaletteFactory.generateAnalogousPalette;
+      case PaletteType.COMPLEMENTARY:
+        return PaletteFactory.generateComplementaryPalette;
       default:
         return PaletteFactory.generateRandomPalette;
     }
@@ -86,6 +93,60 @@ export default class PaletteFactory {
     };
 
     const colorMixer = new MonochromaticMixer(colorMixerOption);
+
+    const colors = colorMixer.generatePalette();
+
+    return new Palette(colors);
+  }
+
+  private static generateAnalogousPalette(
+    colorsQuantity: number,
+    generationOptions: PaletteGenerationOptions,
+  ): Palette {
+    const { lockedColors } = generationOptions;
+    validatePaletteGeneration({
+      colorsQuantity,
+      lockedColors: lockedColors.length,
+      needBaseColor: true,
+    });
+
+    const baseColor = lockedColors[0];
+
+    const colorMixerOption: ColorMixerOptions = {
+      baseColor,
+      colorsQuantity,
+      luminosity: new Factor(0.9, PercentLevel.MEDIUM_HIGH),
+      saturation: new Factor(0.9, PercentLevel.MEDIUM_HIGH),
+    };
+
+    const colorMixer = new AnalogousMixer(colorMixerOption);
+
+    const colors = colorMixer.generatePalette();
+
+    return new Palette(colors);
+  }
+
+  private static generateComplementaryPalette(
+    colorsQuantity: number,
+    generationOptions: PaletteGenerationOptions,
+  ): Palette {
+    const { lockedColors } = generationOptions;
+    validatePaletteGeneration({
+      colorsQuantity,
+      lockedColors: lockedColors.length,
+      needBaseColor: true,
+    });
+
+    const baseColor = lockedColors[0];
+
+    const colorMixerOption: ColorMixerOptions = {
+      baseColor,
+      colorsQuantity,
+      luminosity: new Factor(0.3),
+      saturation: new Factor(0.5),
+    };
+
+    const colorMixer = new ComplementaryMixer(colorMixerOption);
 
     const colors = colorMixer.generatePalette();
 

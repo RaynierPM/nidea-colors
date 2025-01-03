@@ -31,3 +31,10 @@
   background-color: #bbb;
   border-color: #666;
 }
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}

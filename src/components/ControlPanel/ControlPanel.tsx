@@ -9,11 +9,13 @@ const pageTitle = 'Nidea colors';
 type ControlPanelProps = {
   paletteUrl: string;
   generateNewPalette: () => void;
+  paletteType: string;
 };
 
 export default function ControlPanel({
   paletteUrl,
   generateNewPalette,
+  paletteType,
 }: ControlPanelProps) {
   const [visible, setVisible] = useState(false);
 
@@ -27,7 +29,14 @@ export default function ControlPanel({
 
   return (
     <header className={styles.controlPanel}>
-      <RandomColorText text={pageTitle} />
+      <div className={styles.titleContainer}>
+        <h1>
+          <RandomColorText text={pageTitle} />
+        </h1>
+        <p>
+          <RandomColorText text={paletteType} />
+        </p>
+      </div>
       <div className={styles.buttons}>
         <Button onClick={openModal}>
           <i className="bi-share" />

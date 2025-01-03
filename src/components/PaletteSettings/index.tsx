@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './style.module.css';
 import DrawerComponent from 'components/common/drawer/Drawer';
-import { Button, Collapse, Select, Typography } from 'antd';
+import { Button, Collapse, Select, Tooltip, Typography } from 'antd';
 import { PaletteType } from 'core/types';
 
 type PaletteSettingsProps = {
@@ -18,12 +18,20 @@ type AvailablePalette = {
 
 const availableSchemes: AvailablePalette[] = [
   {
-    label: 'Random',
+    label: 'RANDOM',
     value: PaletteType.RANDOM,
   },
   {
-    label: 'Monochromatic',
+    label: 'MONOCHROMATIC',
     value: PaletteType.MONOCHROMATIC,
+  },
+  {
+    label: 'ANALOGOUS',
+    value: PaletteType.ANALOGOUS,
+  },
+  {
+    label: 'COMPLEMENTARY',
+    value: PaletteType.COMPLEMENTARY,
   },
 ];
 
@@ -57,7 +65,12 @@ export default function PaletteSettings({
       >
         <Collapse defaultActiveKey={['1']}>
           <Collapse.Panel header="Basic Settings" key="1">
-            <Typography.Title level={4}>Color schemes</Typography.Title>
+            <Typography.Title level={4}>
+              Color schemes{' '}
+              <Tooltip title="All palettes are random but you can improve how mix colors 🎨 (Enjoy it 😉)">
+                <i className="bi bi-question-circle-fill" />
+              </Tooltip>
+            </Typography.Title>
             <Select
               options={availableSchemes}
               value={selectedScheme}

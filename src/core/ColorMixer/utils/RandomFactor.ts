@@ -51,6 +51,9 @@ export default class Factor {
       case PercentLevel.MEDIUM:
         min = (1 - this._dispersion) / 2;
         break;
+      case PercentLevel.MEDIUM_HIGH:
+        min = 1 - this.dispersion;
+        break;
       case PercentLevel.LOW:
         min = 0;
         break;

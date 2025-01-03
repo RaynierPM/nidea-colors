@@ -16,6 +16,7 @@ export type HSL = {
 
 export enum PercentLevel {
   LOW,
+  MEDIUM_HIGH,
   MEDIUM,
   HIGH,
   ABSOLUTE,

@@ -3,7 +3,7 @@ import { ColorMixerOptions, PercentLevel } from 'core/ColorMixer/types.d';
 import Factor from 'core/ColorMixer/utils/RandomFactor';
 import { PaletteType } from 'core/types';
 import { getRandomColor } from 'core/utils/color';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { mapKey } from 'utils/GenerateColorKey';
 
 type RandomColorTextProps = {
@@ -12,7 +12,11 @@ type RandomColorTextProps = {
 };
 
 export default function RandomColorText({ text }: RandomColorTextProps) {
-  const [letters] = useState<string[]>(getLetters(text));
+  const [letters, setLetters] = useState<string[]>(getLetters(text));
+
+  useEffect(() => {
+    setLetters(getLetters(text));
+  }, [text]);
 
   const titleElements = useMemo<React.ReactNode[]>(() => {
     const len = letters.length;
@@ -38,7 +42,7 @@ export default function RandomColorText({ text }: RandomColorTextProps) {
     });
   }, [letters]);
 
-  return <h1>{titleElements}</h1>;
+  return titleElements;
 }
 
 function getLetters(text: string): string[] {

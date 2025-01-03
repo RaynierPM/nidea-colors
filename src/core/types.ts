@@ -4,6 +4,8 @@ import Palette from './palette';
 export enum PaletteType {
   RANDOM,
   MONOCHROMATIC,
+  ANALOGOUS,
+  COMPLEMENTARY,
 }
 
 export enum PaletteEditType {
