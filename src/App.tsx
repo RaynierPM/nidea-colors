@@ -146,7 +146,11 @@ function App() {
           />
         )}
       </div>
-      <PaletteSettings visible={showSettings} />
+      <PaletteSettings
+        changleScheme={setPaletteType}
+        selectedScheme={paletteType}
+        visible={showSettings}
+      />
       <Toaster />
     </>
   );

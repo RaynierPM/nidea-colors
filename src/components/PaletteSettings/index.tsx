@@ -1,12 +1,36 @@
 import { useState } from 'react';
 import styles from './style.module.css';
 import DrawerComponent from 'components/common/drawer/Drawer';
+import { Collapse, Select, Typography } from 'antd';
+import { PaletteType } from 'core/types';
 
 type PaletteSettingsProps = {
   visible: boolean;
+  selectedScheme: PaletteType;
+  changleScheme: (scheme: PaletteType) => void;
 };
 
-export default function PaletteSettings({ visible }: PaletteSettingsProps) {
+type AvailablePalette = {
+  label: string;
+  value: PaletteType;
+};
+
+const availableSchemes: AvailablePalette[] = [
+  {
+    label: 'Random',
+    value: PaletteType.RANDOM,
+  },
+  {
+    label: 'Monochromatic',
+    value: PaletteType.MONOCHROMATIC,
+  },
+];
+
+export default function PaletteSettings({
+  visible,
+  selectedScheme,
+  changleScheme,
+}: PaletteSettingsProps) {
   const [visibleSettings, setVisibleSettings] = useState(false);
 
   function handleClose() {
@@ -27,8 +51,26 @@ export default function PaletteSettings({ visible }: PaletteSettingsProps) {
       <DrawerComponent
         open={visibleSettings}
         onClose={handleClose}
-        title="Palette Settings">
-        <div>Hello</div>
+        title="Palette Settings"
+      >
+        <Collapse defaultActiveKey={['1']}>
+          <Collapse.Panel header="Basic Settings" key="1">
+            <Typography.Title level={4}>Color schemes</Typography.Title>
+            <Select
+              options={availableSchemes}
+              value={selectedScheme}
+              onChange={changleScheme}
+              style={{ width: '100%' }}
+            />
+          </Collapse.Panel>
+          <Collapse.Panel header="Advanced Settings" key="2">
+            <div className={styles.comingSoon}>
+              <Typography.Title level={5} style={{ margin: 0 }}>
+                Coming soon...
+              </Typography.Title>
+            </div>
+          </Collapse.Panel>
+        </Collapse>
       </DrawerComponent>
     </>
   );
