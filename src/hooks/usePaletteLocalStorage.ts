@@ -19,7 +19,7 @@ export default function usePaletteLocalStorage() {
     const newPalettes = { ...storedPalettes, [palette.id]: palette };
     localStorage.setItem(
       PALETTES_LOCALSTORAGE_KEY,
-      JSON.stringify(parsePalettes(newPalettes)),
+      JSON.stringify(parPalettesToJson(newPalettes)),
     );
     setPalettes(newPalettes);
   }
@@ -29,7 +29,7 @@ export default function usePaletteLocalStorage() {
     delete newPalettes[palette.id];
     localStorage.setItem(
       PALETTES_LOCALSTORAGE_KEY,
-      JSON.stringify(parsePalettes(newPalettes)),
+      JSON.stringify(parPalettesToJson(newPalettes)),
     );
     setPalettes(newPalettes);
   }
@@ -39,11 +39,35 @@ export default function usePaletteLocalStorage() {
     setPalettes({});
   }
 
+  function importPalettes(palettes: PaletteLocalStorage) {
+    const newPalettes = jsonToPalettes(palettes);
+    localStorage.setItem(
+      PALETTES_LOCALSTORAGE_KEY,
+      JSON.stringify(parPalettesToJson(newPalettes)),
+    );
+    setPalettes({ ...storedPalettes, ...newPalettes });
+  }
+
+  function exportPalettes() {
+    const palettes = parPalettesToJson(storedPalettes);
+    const data = new Blob([JSON.stringify(palettes)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'palettes.json';
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   return {
     storedPalettes,
     savePalette,
     removePalette,
     clearStoredPalettes,
+    importPalettes,
+    exportPalettes,
   };
 }
 
@@ -69,10 +93,18 @@ function getPalettes() {
   return {};
 }
 
-function parsePalettes(palettes: PaletteStored): PaletteLocalStorage {
+function parPalettesToJson(palettes: PaletteStored): PaletteLocalStorage {
   const palettesStorage: PaletteLocalStorage = {};
   for (const id in palettes) {
     palettesStorage[id] = palettes[id].toString();
   }
   return palettesStorage;
+}
+
+function jsonToPalettes(palettes: PaletteLocalStorage): PaletteStored {
+  const palettesObj: PaletteStored = {};
+  for (const id in palettes) {
+    palettesObj[id] = Palette.fromJson(palettes[id]);
+  }
+  return palettesObj;
 }

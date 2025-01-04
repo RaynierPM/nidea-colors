@@ -1,8 +1,10 @@
-import { Button, Drawer } from 'antd';
+import { Button, Drawer, Input, InputRef } from 'antd';
 import styles from './style.module.css';
 import usePaletteLocalStorage from 'hooks/usePaletteLocalStorage';
 import Palette from 'core/palette';
 import PalettesContainer from './PalettesContainer';
+import { ChangeEvent, useRef } from 'react';
+import { toast } from 'sonner';
 
 type props = {
   visible: boolean;
@@ -17,9 +19,16 @@ export default function StoredPalettesSettings({
   actualPalette,
   setPalette,
 }: props) {
-  const { removePalette, savePalette, storedPalettes, clearStoredPalettes } =
-    usePaletteLocalStorage();
+  const {
+    removePalette,
+    savePalette,
+    storedPalettes,
+    clearStoredPalettes,
+    exportPalettes,
+    importPalettes,
+  } = usePaletteLocalStorage();
 
+  const inputRef = useRef<InputRef>(null);
   const isStored = Boolean(storedPalettes[actualPalette.id]);
 
   function handleRemovePalette() {
@@ -28,6 +37,29 @@ export default function StoredPalettesSettings({
 
   function handleSavePalette() {
     savePalette(actualPalette);
+  }
+
+  function handleImportPalettes(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file?.type === 'application/json') {
+      file.text().then(text => {
+        try {
+          const palettes = JSON.parse(text);
+          importPalettes(palettes);
+        } catch {
+          toast.error('Error importing palettes');
+        }
+      });
+    } else {
+      toast.error('Invalid file');
+    }
+    if (inputRef.current?.input) {
+      inputRef.current.input.files = null;
+    }
+  }
+
+  function handleImportPalettesClick() {
+    inputRef.current?.input?.click();
   }
 
   return (
@@ -68,6 +100,25 @@ export default function StoredPalettesSettings({
           </Button>
         )}
       </div>
+
+      <hr style={{ marginTop: '10px' }} />
+
+      <div className={styles.buttons}>
+        {Boolean(Object.values(storedPalettes).length) && (
+          <Button className={styles.button} onClick={exportPalettes}>
+            Export <i className="bi bi-download" />
+          </Button>
+        )}
+        <Button className={styles.button} onClick={handleImportPalettesClick}>
+          Import <i className="bi bi-upload" />
+        </Button>
+      </div>
+      <Input
+        ref={inputRef}
+        style={{ display: 'none' }}
+        type="file"
+        onChange={handleImportPalettes}
+      />
     </Drawer>
   );
 }
