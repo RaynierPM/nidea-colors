@@ -39,22 +39,18 @@ export default function StoredPalettesSettings({
     savePalette(actualPalette);
   }
 
-  function handleImportPalettes(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file?.type === 'application/json') {
-      file.text().then(text => {
-        try {
-          const palettes = JSON.parse(text);
-          importPalettes(palettes);
-        } catch {
-          toast.error('Error importing palettes');
-        }
-      });
-    } else {
-      toast.error('Invalid file');
-    }
-    if (inputRef.current?.input) {
-      inputRef.current.input.files = null;
+  async function handleImportPalettes(event: ChangeEvent<HTMLInputElement>) {
+    try {
+      const file = event.target.files?.[0];
+      if (file?.type === 'application/json') {
+        const text = await file.text();
+        const palettes = JSON.parse(text);
+        importPalettes(palettes);
+      } else {
+        toast.error('Invalid file');
+      }
+    } catch {
+      toast.error('Error importing palettes');
     }
   }
 
@@ -117,6 +113,7 @@ export default function StoredPalettesSettings({
         ref={inputRef}
         style={{ display: 'none' }}
         type="file"
+        value={''}
         onChange={handleImportPalettes}
       />
     </Drawer>
