@@ -4,7 +4,6 @@ import ControlPanel from './components/ControlPanel/ControlPanel';
 import Palette from './core/palette';
 import { toast, Toaster } from 'sonner';
 import useGetPaletteFromParams from './hooks/useGetPaletteFromParams';
-import { getPaletteUrl } from './core/utils/paletteUrl';
 import Color from 'core/Color';
 import {
   InvalidColorsQuantityError,
@@ -49,8 +48,6 @@ function App() {
 
   const [lockedColors, setLockedColors] = useState<Color[]>([]);
   const [palette, setPalette] = useState<Palette>(DEFAULT_PALETTE);
-
-  const paletteUrl = getPaletteUrl(palette);
 
   function generateNewPalette() {
     try {
@@ -131,8 +128,9 @@ function App() {
       <div className="app">
         <ControlPanel
           paletteType={paletteTypes[paletteType]}
-          paletteUrl={paletteUrl}
+          actualPalette={palette}
           generateNewPalette={generateNewPalette}
+          setPalette={setPalette}
         />
         <Canvas
           lockedColors={lockedColors}

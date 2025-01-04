@@ -12,6 +12,10 @@ export default class Palette {
     return this._colors;
   }
 
+  get id() {
+    return this._colors.map(color => color.hexColor.slice(0, 2)).join('');
+  }
+
   constructor(colors?: Color[]) {
     if (colors) {
       this._colors = colors;

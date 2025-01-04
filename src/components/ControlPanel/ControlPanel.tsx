@@ -3,29 +3,41 @@ import styles from './style.module.css';
 import SharePaletteModal from './functions/SharePaletteModal';
 import { useState } from 'react';
 import RandomColorText from 'components/common/Text/RandomColorText';
+import Palette from 'core/palette';
+import { getPaletteUrl } from 'core/utils/paletteUrl';
+import StoredPalettesSettings from 'components/StoredPalettes';
 
 const pageTitle = 'Nidea colors';
 
 type ControlPanelProps = {
-  paletteUrl: string;
   generateNewPalette: () => void;
   paletteType: string;
+  actualPalette: Palette;
+  setPalette: (palette: Palette) => void;
 };
 
 export default function ControlPanel({
-  paletteUrl,
   generateNewPalette,
   paletteType,
+  actualPalette,
+  setPalette,
 }: ControlPanelProps) {
-  const [visible, setVisible] = useState(false);
+  const [visibleShare, setVisibleShare] = useState(false);
+  const [visibleStored, setVisibleStored] = useState(false);
 
-  function closeModal() {
-    setVisible(false);
+  function closeModal(dispatcher: (visible: boolean) => void) {
+    return () => {
+      dispatcher(false);
+    };
   }
 
-  function openModal() {
-    setVisible(true);
+  function openModal(dispatcher: (visible: boolean) => void) {
+    return () => {
+      dispatcher(true);
+    };
   }
+
+  const paletteUrl = getPaletteUrl(actualPalette);
 
   return (
     <header className={styles.controlPanel}>
@@ -38,7 +50,10 @@ export default function ControlPanel({
         </p>
       </div>
       <div className={styles.buttons}>
-        <Button onClick={openModal}>
+        <Button onClick={openModal(setVisibleStored)}>
+          <i className="bi bi-floppy" />
+        </Button>
+        <Button onClick={openModal(setVisibleShare)}>
           <i className="bi-share" />
         </Button>
         <Tooltip title="Generate new palette">
@@ -49,8 +64,14 @@ export default function ControlPanel({
       </div>
       <SharePaletteModal
         palettUrl={paletteUrl}
-        visible={visible}
-        onClose={closeModal}
+        visible={visibleShare}
+        onClose={closeModal(setVisibleShare)}
+      />
+      <StoredPalettesSettings
+        setPalette={setPalette}
+        actualPalette={actualPalette}
+        visible={visibleStored}
+        onClose={closeModal(setVisibleStored)}
       />
     </header>
   );

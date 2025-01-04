@@ -9,6 +9,7 @@ type TileProps = {
   lockUnlock?: () => void;
   addColor?: () => void;
   removeColor?: () => void;
+  showLabel?: boolean;
 };
 
 export default function Tile({
@@ -17,6 +18,7 @@ export default function Tile({
   lockUnlock,
   addColor,
   removeColor,
+  showLabel = true,
 }: TileProps) {
   const actions = getActions({
     lockUnlock,
@@ -27,8 +29,12 @@ export default function Tile({
   return (
     <div
       className={styles.tile}
-      style={{ backgroundColor: `#${color.hexColor}` }}>
-      <TileActions actions={actions} copyableText={`#${color.hexColor}`} />
+      style={{ backgroundColor: `#${color.hexColor}` }}
+    >
+      <TileActions
+        actions={actions}
+        copyableText={showLabel ? color.hexColor : undefined}
+      />
       {addColor && (
         <div className={styles.addColorAction} onClick={addColor}>
           <i className="bi bi-plus-circle" />

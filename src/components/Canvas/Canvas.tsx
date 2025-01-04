@@ -12,6 +12,7 @@ type CanvasProps = {
   lockUnlockColorGenerator?: handleColorGenerator;
   addColor?: () => void;
   removeColor?: handleColorGenerator;
+  showLabel?: boolean;
 };
 
 export default function Canvas({
@@ -20,6 +21,7 @@ export default function Canvas({
   lockUnlockColorGenerator,
   addColor,
   removeColor,
+  showLabel = true,
 }: CanvasProps) {
   return (
     <main className={styles.canvas}>
@@ -35,6 +37,7 @@ export default function Canvas({
             removeColor={removeColor?.(color)}
             key={mapKey(color.hexColor, index)}
             addColor={lastItem ? addColor : undefined}
+            showLabel={showLabel}
           />
         );
       })}

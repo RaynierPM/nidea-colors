@@ -4,21 +4,26 @@ import { Tooltip } from 'antd';
 import { Actions } from './type';
 
 type LabelProps = {
-  copyableText: string;
+  copyableText?: string;
   actions?: Actions[];
 };
 
 export default function TileActions({ copyableText, actions }: LabelProps) {
   function handleCopy() {
+    if (!copyableText) {
+      return;
+    }
     copyToClipboard(copyableText);
   }
 
   return (
     <div className={styles.labelContainer}>
       <Tooltip title="Copy to clipboard">
-        <span className={styles.label} onClick={handleCopy}>
-          {copyableText}
-        </span>
+        {copyableText && (
+          <span className={styles.label} onClick={handleCopy}>
+            {copyableText}
+          </span>
+        )}
       </Tooltip>
       {Boolean(actions) && (
         <div className={styles.actions}>
