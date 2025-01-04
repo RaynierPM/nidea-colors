@@ -33,6 +33,14 @@ const availableSchemes: AvailablePalette[] = [
     label: 'COMPLEMENTARY',
     value: PaletteType.COMPLEMENTARY,
   },
+  {
+    label: 'TRIADIC',
+    value: PaletteType.TRIADIC,
+  },
+  {
+    label: 'COMPOUND',
+    value: PaletteType.COMPOUND,
+  },
 ];
 
 export default function PaletteSettings({

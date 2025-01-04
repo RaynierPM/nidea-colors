@@ -6,6 +6,8 @@ export enum PaletteType {
   MONOCHROMATIC,
   ANALOGOUS,
   COMPLEMENTARY,
+  TRIADIC,
+  COMPOUND,
 }
 
 export enum PaletteEditType {
