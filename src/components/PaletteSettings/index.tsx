@@ -95,8 +95,8 @@ export default function PaletteSettings({
                 borderRadius: 5,
               }}
             >
-              Note: If lock another color and had been selected a color scheme,
-              the colors will be reseted to the default palette Settings
+              <b>Note:</b> If lock another color and had been selected a color
+              scheme, the colors will be reseted to the default palette Settings
               (Random).
               <br />
               <i>We are working to improve it...</i>
@@ -110,6 +110,19 @@ export default function PaletteSettings({
             </div>
           </Collapse.Panel>
         </Collapse>
+        <Typography.Paragraph
+          italic
+          style={{
+            marginTop: 20,
+            border: '1px solid #ccc',
+            padding: '5px',
+            borderRadius: 5,
+          }}
+        >
+          <b>Note: </b>This cromatic circle is based on RGB color model, so the
+          colors generated will be different from the ones you see can see on
+          traditional color pickers.
+        </Typography.Paragraph>
         <Button
           onClick={() => {
             generateNewPalette();
