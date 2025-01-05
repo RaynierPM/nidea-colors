@@ -40,12 +40,12 @@ export default function usePaletteLocalStorage() {
   }
 
   function importPalettes(palettes: PaletteLocalStorage) {
-    const newPalettes = jsonToPalettes(palettes);
+    const newPalettes = { ...storedPalettes, ...jsonToPalettes(palettes) };
     localStorage.setItem(
       PALETTES_LOCALSTORAGE_KEY,
       JSON.stringify(parPalettesToJson(newPalettes)),
     );
-    setPalettes({ ...storedPalettes, ...newPalettes });
+    setPalettes(newPalettes);
   }
 
   function exportPalettes() {
