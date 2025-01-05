@@ -114,6 +114,7 @@ export default function StoredPalettesSettings({
         style={{ display: 'none' }}
         type="file"
         value={''}
+        accept=".json"
         onChange={handleImportPalettes}
       />
     </Drawer>
