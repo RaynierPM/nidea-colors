@@ -99,7 +99,7 @@ export default function PaletteSettings({
               scheme, the colors will be reseted to the default palette Settings
               (Random).
               <br />
-              <i>We are working to improve it...</i>
+              <i>We will be working to improve it...</i>
             </Typography.Paragraph>
           </Collapse.Panel>
           <Collapse.Panel header="Advanced Settings" key="2">
@@ -120,7 +120,7 @@ export default function PaletteSettings({
           }}
         >
           <b>Note: </b>This cromatic circle is based on RGB color model, so the
-          colors generated will be different from the ones you see can see on
+          colors generated will be different from the ones you can see on
           traditional color pickers.
         </Typography.Paragraph>
         <Button
