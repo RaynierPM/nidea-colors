@@ -6,8 +6,8 @@ import Factor from './utils/RandomFactor';
 export default abstract class ColorMixer implements ColorMixerI {
   baseColor: Color;
   colorsQuantity: number;
-  luminosity: Factor = new Factor(0.6);
-  saturation: Factor = new Factor(0.8);
+  luminosity: Factor = new Factor(0.2, 0.8);
+  saturation: Factor = new Factor(0.1, 0.9);
 
   private readonly MAX_COLOR_VALUE = 255;
 
@@ -23,7 +23,7 @@ export default abstract class ColorMixer implements ColorMixerI {
     }
   }
 
-  abstract generatePalette(): Color[];
+  abstract generateColors(): Color[];
 
   protected HSLToRGB(hsl: HSL): Color {
     let { hue } = hsl;

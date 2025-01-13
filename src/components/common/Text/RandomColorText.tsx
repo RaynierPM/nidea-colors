@@ -1,5 +1,5 @@
 import MonochromaticMixer from 'core/ColorMixer/MonochromaticMixer';
-import { ColorMixerOptions, PercentLevel } from 'core/ColorMixer/types.d';
+import { ColorMixerOptions } from 'core/ColorMixer/types.d';
 import Factor from 'core/ColorMixer/utils/RandomFactor';
 import { PaletteType } from 'core/types';
 import { getRandomColor } from 'core/utils/color';
@@ -24,10 +24,10 @@ export default function RandomColorText({ text }: RandomColorTextProps) {
     const options: ColorMixerOptions = {
       baseColor: getRandomColor(),
       colorsQuantity: len,
-      luminosity: new Factor(0.5, PercentLevel.ABSOLUTE),
-      saturation: new Factor(0.2),
+      luminosity: new Factor(0.5, 0.5),
+      saturation: new Factor(0.4, 0.6),
     };
-    const colors = new MonochromaticMixer(options).generatePalette();
+    const colors = new MonochromaticMixer(options).generateColors();
 
     return letters.map((letter, index) => {
       const color = colors[index];

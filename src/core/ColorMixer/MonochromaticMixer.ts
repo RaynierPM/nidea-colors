@@ -7,7 +7,7 @@ export default class MonochromaticMixer extends ColorMixer {
     super(options);
   }
 
-  generatePalette(): Color[] {
+  generateColors(): Color[] {
     const baseColorHSL = this.RGBToHSL(this.baseColor);
     const colors: Color[] = [this.baseColor];
 

@@ -128,10 +128,6 @@ function App() {
   const { previewPalette, previewVisible, handleClosePreviewPalette } =
     useGetPaletteFromParams();
 
-  function handlePaletteTypeChange(type: PaletteType) {
-    setPaletteOptions({ ...paletteOptions, paletteType: type });
-  }
-
   return (
     <>
       <div className="app">
@@ -159,9 +155,9 @@ function App() {
       </div>
       <PaletteSettings
         generateNewPalette={generateNewPalette}
-        changleScheme={handlePaletteTypeChange}
-        selectedScheme={paletteOptions.paletteType}
-        visible
+        updateOptions={setPaletteOptions}
+        options={paletteOptions}
+        palette={palette}
       />
       <Toaster />
     </>

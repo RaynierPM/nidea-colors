@@ -48,8 +48,7 @@ export default class PaletteFactory {
         options: colorMixerOption,
       });
 
-      const colors = colorMixer.generatePalette();
-
+      const colors = colorMixer.generateColors();
       return new Palette(colors);
     };
   }

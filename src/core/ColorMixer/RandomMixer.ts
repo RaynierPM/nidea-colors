@@ -9,11 +9,11 @@ export default class RandomMixer extends ColorMixer {
 
   private readonly ANGLE_RANGE = 360;
 
-  generatePalette(): Color[] {
+  generateColors(): Color[] {
     const colors: Color[] = [];
     for (let i = 0; i < this.colorsQuantity; i++) {
       const randomHSL = {
-        hue: Math.floor(Math.random() * this.ANGLE_RANGE),
+        hue: Math.random() * this.ANGLE_RANGE,
         saturation: this.saturation.get(),
         luminosity: this.luminosity.get(),
       };
