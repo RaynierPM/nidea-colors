@@ -6,8 +6,8 @@ import Factor from './utils/RandomFactor';
 export default abstract class ColorMixer implements ColorMixerI {
   baseColor: Color;
   colorsQuantity: number;
-  luminosity: Factor = new Factor(0.65);
-  saturation: Factor = new Factor(0.65);
+  luminosity: Factor = new Factor(0.6);
+  saturation: Factor = new Factor(0.8);
 
   private readonly MAX_COLOR_VALUE = 255;
 
