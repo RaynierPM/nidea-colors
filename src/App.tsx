@@ -9,10 +9,11 @@ import {
   InvalidColorsQuantityError,
   InvalidParametersError,
 } from 'core/errors/PaletteFactory';
-import PaletteFactory, { type PaletteGenerator } from 'core/PaletteFactory';
+import PaletteFactory from 'core/PaletteFactory';
 import {
+  generatePaletteOptions,
   PaletteColorsLimit,
-  PaletteGenerationOptions,
+  PaletteGenerator,
   PaletteType as PaletteType,
 } from 'core/types';
 import PreviewModal from 'components/PalettePreview/PreviewModal';
@@ -24,34 +25,41 @@ import { paletteTypes } from 'utils/paletteType';
 
 const DEFAULT_PALETTE_TYPE = PaletteType.RANDOM;
 
-const DEFAULT_PALETTE = PaletteFactory.getPaletteGenerator(
-  DEFAULT_PALETTE_TYPE,
-)(4, { lockedColors: [] });
+const DEFAULT_PALETTE = PaletteFactory.getPaletteGenerator()({
+  paletteType: DEFAULT_PALETTE_TYPE,
+  lockedColors: [],
+  colorsQuantity: 4,
+});
 
 function App() {
+  const [lockedColors, setLockedColors] = useState<Color[]>([]);
+  const [palette, setPalette] = useState<Palette>(DEFAULT_PALETTE);
+
+  const [paletteOptions] = useState<generatePaletteOptions>({
+    paletteType: PaletteType.RANDOM,
+    lockedColors: [],
+    colorsQuantity: palette.colors.length,
+  });
   const [paletteType, setPaletteType] =
     useState<PaletteType>(DEFAULT_PALETTE_TYPE);
 
   const paletteGenerator = useCallback<PaletteGenerator>(
-    (cq: number, lo: PaletteGenerationOptions) => {
+    (options: generatePaletteOptions) => {
       try {
-        return PaletteFactory.getPaletteGenerator(paletteType)(cq, lo);
+        return PaletteFactory.getPaletteGenerator()(options);
       } catch (err) {
         if (err instanceof InvalidParametersError) {
           toast.error('Going back to random palette');
         }
-        return PaletteFactory.getPaletteGenerator(PaletteType.RANDOM)(cq, lo);
+        return PaletteFactory.getPaletteGenerator()(options);
       }
     },
-    [paletteType],
+    [],
   );
-
-  const [lockedColors, setLockedColors] = useState<Color[]>([]);
-  const [palette, setPalette] = useState<Palette>(DEFAULT_PALETTE);
 
   function generateNewPalette() {
     try {
-      setPalette(paletteGenerator(palette.colors.length, { lockedColors }));
+      setPalette(paletteGenerator(paletteOptions));
       clearPaletteUrl();
     } catch (err) {
       if (err instanceof InvalidColorsQuantityError) {

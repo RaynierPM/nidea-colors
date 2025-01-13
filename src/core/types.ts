@@ -1,4 +1,5 @@
 import Color from './Color';
+import Factor from './ColorMixer/utils/RandomFactor';
 import Palette from './palette';
 
 export enum PaletteType {
@@ -30,3 +31,14 @@ export interface PaletteEditionOptions {
   palette: Palette;
   baseColor: Color;
 }
+
+export interface generatePaletteOptions {
+  paletteType: PaletteType;
+  lockedColors: Color[];
+  colorsQuantity: number;
+  baseColor?: Color;
+  luminosity?: Factor;
+  saturation?: Factor;
+}
+
+export type PaletteGenerator = (options: generatePaletteOptions) => Palette;

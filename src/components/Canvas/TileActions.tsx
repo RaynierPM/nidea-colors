@@ -28,7 +28,7 @@ export default function TileActions({ copyableText, actions }: LabelProps) {
       {Boolean(actions) && (
         <div className={styles.actions}>
           {actions?.map(action => (
-            <Tooltip title={action.tooltip}>
+            <Tooltip key={action.tooltip} title={action.tooltip}>
               <span className={styles.action} onClick={action.action}>
                 <i className={action.icon} />
               </span>
