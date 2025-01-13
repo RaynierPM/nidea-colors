@@ -19,7 +19,6 @@ import {
 import PreviewModal from 'components/PalettePreview/PreviewModal';
 import { clearPaletteUrl } from 'utils/url';
 import { getRandomColor } from 'core/utils/color';
-import useShowPaletteSettings from 'hooks/useShowPaletteSettings';
 import PaletteSettings from 'components/PaletteSettings';
 import { paletteTypes } from 'utils/paletteType';
 
@@ -32,30 +31,23 @@ const DEFAULT_PALETTE = PaletteFactory.getPaletteGenerator()({
 });
 
 function App() {
-  const [lockedColors, setLockedColors] = useState<Color[]>([]);
   const [palette, setPalette] = useState<Palette>(DEFAULT_PALETTE);
-
-  const [paletteOptions] = useState<generatePaletteOptions>({
+  const [paletteOptions, setPaletteOptions] = useState<generatePaletteOptions>({
     paletteType: PaletteType.RANDOM,
     lockedColors: [],
     colorsQuantity: palette.colors.length,
   });
-  const [paletteType, setPaletteType] =
-    useState<PaletteType>(DEFAULT_PALETTE_TYPE);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const paletteGenerator = useCallback<PaletteGenerator>(
-    (options: generatePaletteOptions) => {
-      try {
-        return PaletteFactory.getPaletteGenerator()(options);
-      } catch (err) {
-        if (err instanceof InvalidParametersError) {
-          toast.error('Going back to random palette');
-        }
-        return PaletteFactory.getPaletteGenerator()(options);
-      }
-    },
+    PaletteFactory.getPaletteGenerator(),
     [],
   );
+
+  const goBackToRamdom = useCallback(() => {
+    setPaletteOptions({ ...paletteOptions, paletteType: PaletteType.RANDOM });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function generateNewPalette() {
     try {
@@ -65,7 +57,8 @@ function App() {
       if (err instanceof InvalidColorsQuantityError) {
         toast.error(err.message);
       } else if (err instanceof InvalidParametersError) {
-        toast.error(`Invalid colors parameters`);
+        toast.error('Going back to random palette');
+        goBackToRamdom();
       }
     }
   }
@@ -78,16 +71,24 @@ function App() {
     return () => {
       palette.addColor(getRandomColor());
       setPalette(palette.clone());
+      setPaletteOptions({ ...paletteOptions, colorsQuantity: len + 1 });
     };
   }
 
   function RemoveColor(color: Color) {
     return () => {
-      if (lockedColors.some(lc => lc.hexColor === color.hexColor)) {
+      paletteOptions.lockedColors.forEach(lc => console.log(lc.hexColor));
+      if (
+        paletteOptions.lockedColors.some(lc => lc.hexColor === color.hexColor)
+      ) {
         lockUnlockColorGenerator(color)();
       }
       palette.removeColor(color);
       setPalette(palette.clone());
+      setPaletteOptions({
+        ...paletteOptions,
+        colorsQuantity: palette.colors.length - 1,
+      });
     };
   }
 
@@ -104,44 +105,44 @@ function App() {
   }
 
   function lockUnlockColorGenerator(color: Color) {
+    const { lockedColors } = paletteOptions;
     return function () {
       const index = lockedColors.findIndex(
         lockedColor => lockedColor.hexColor === color.hexColor,
       );
       if (index === -1) {
-        setLockedColors([...lockedColors, color]);
+        setPaletteOptions({
+          ...paletteOptions,
+          lockedColors: [...lockedColors, color],
+        });
       } else {
-        setLockedColors(
-          lockedColors.filter(
+        setPaletteOptions({
+          ...paletteOptions,
+          lockedColors: lockedColors.filter(
             lockedColor => lockedColor.hexColor !== color.hexColor,
           ),
-        );
+        });
       }
     };
   }
   const { previewPalette, previewVisible, handleClosePreviewPalette } =
     useGetPaletteFromParams();
 
-  const goBackToRamdom = useCallback(() => {
-    setPaletteType(PaletteType.RANDOM);
-  }, []);
-
-  const { visible: showSettings } = useShowPaletteSettings(
-    lockedColors,
-    goBackToRamdom,
-  );
+  function handlePaletteTypeChange(type: PaletteType) {
+    setPaletteOptions({ ...paletteOptions, paletteType: type });
+  }
 
   return (
     <>
       <div className="app">
         <ControlPanel
-          paletteType={paletteTypes[paletteType]}
+          paletteType={paletteTypes[paletteOptions.paletteType]}
           actualPalette={palette}
           generateNewPalette={generateNewPalette}
           setPalette={setPalette}
         />
         <Canvas
-          lockedColors={lockedColors}
+          lockedColors={paletteOptions.lockedColors}
           lockUnlockColorGenerator={lockUnlockColorGenerator}
           palette={palette}
           addColor={generateAddColor()}
@@ -158,9 +159,9 @@ function App() {
       </div>
       <PaletteSettings
         generateNewPalette={generateNewPalette}
-        changleScheme={setPaletteType}
-        selectedScheme={paletteType}
-        visible={showSettings}
+        changleScheme={handlePaletteTypeChange}
+        selectedScheme={paletteOptions.paletteType}
+        visible
       />
       <Toaster />
     </>

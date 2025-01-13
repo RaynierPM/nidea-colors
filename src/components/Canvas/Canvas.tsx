@@ -17,8 +17,6 @@ type CanvasProps = {
 
 export default function Canvas({
   palette,
-  lockedColors,
-  lockUnlockColorGenerator,
   addColor,
   removeColor,
   showLabel = true,
@@ -29,10 +27,6 @@ export default function Canvas({
         const lastItem = index === palette.colors.length - 1;
         return (
           <Tile
-            locked={lockedColors?.some(
-              lockedColor => lockedColor.hexColor === color.hexColor,
-            )}
-            lockUnlock={lockUnlockColorGenerator?.(color)}
             color={color}
             removeColor={removeColor?.(color)}
             key={mapKey(color.hexColor, index)}

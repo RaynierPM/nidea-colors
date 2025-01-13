@@ -27,11 +27,14 @@ export default class PaletteFactory {
         saturation,
       } = options;
 
-      validatePaletteGeneration({
-        colorsQuantity: colorsQuantity,
-        lockedColors: lockedColors.length,
-        needBaseColor: paletteType !== PaletteType.RANDOM,
-      });
+      validatePaletteGeneration(
+        {
+          colorsQuantity: colorsQuantity,
+          lockedColors: lockedColors.length,
+          baseColor: baseColor,
+        },
+        paletteType !== PaletteType.RANDOM,
+      );
 
       const colorMixerOption: ColorMixerOptions = {
         baseColor: baseColor || Color.generateRandomColor(),
@@ -66,15 +69,18 @@ export default class PaletteFactory {
   }
 }
 
-function validatePaletteGeneration({
-  colorsQuantity,
-  lockedColors,
+function validatePaletteGeneration(
+  {
+    colorsQuantity,
+    lockedColors,
+    baseColor,
+  }: {
+    colorsQuantity: number;
+    lockedColors: number;
+    baseColor?: Color;
+  },
   needBaseColor = false,
-}: {
-  colorsQuantity: number;
-  lockedColors: number;
-  needBaseColor?: boolean;
-}): void {
+): void {
   if (
     colorsQuantity < PaletteColorsLimit.MIN ||
     colorsQuantity > PaletteColorsLimit.MAX
@@ -86,7 +92,7 @@ function validatePaletteGeneration({
     throw new InvalidParametersError();
   }
 
-  if (needBaseColor && lockedColors != 1) {
+  if (needBaseColor && !baseColor) {
     throw new InvalidParametersError();
   }
 }
