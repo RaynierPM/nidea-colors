@@ -3,9 +3,9 @@ import styles from './style.module.css';
 import SharePaletteModal from './functions/SharePaletteModal';
 import { useState } from 'react';
 import RandomColorText from 'components/common/Text/RandomColorText';
-import Palette from 'core/palette';
-import { getPaletteUrl } from 'core/utils/paletteUrl';
 import StoredPalettesSettings from 'components/StoredPalettes';
+import { Palette } from 'nidea-colors';
+import { getPaletteUrl } from 'utils/paletteUrl';
 
 const pageTitle = 'Nidea colors';
 

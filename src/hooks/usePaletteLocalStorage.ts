@@ -1,4 +1,4 @@
-import Palette from 'core/palette';
+import { Palette } from 'nidea-colors';
 import { useState } from 'react';
 import { toast } from 'sonner';
 

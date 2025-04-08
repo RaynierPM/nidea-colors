@@ -1,10 +1,9 @@
-import MonochromaticMixer from 'core/ColorMixer/MonochromaticMixer';
-import { ColorMixerOptions } from 'core/ColorMixer/types.d';
-import Factor from 'core/ColorMixer/utils/RandomFactor';
-import { PaletteType } from 'core/types';
-import { getRandomColor } from 'core/utils/color';
+import { PaletteType } from 'nidea-colors';
+import { Factor, MonochromaticMixer } from 'nidea-colors/ColorMixer';
 import React, { useEffect, useMemo, useState } from 'react';
 import { mapKey } from 'utils/GenerateColorKey';
+import {ColorMixerOptions} from 'nidea-colors/ColorMixer'
+import { getRandomColor } from 'nidea-colors/utils';
 
 type RandomColorTextProps = {
   text: string;

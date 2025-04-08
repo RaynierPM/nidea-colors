@@ -1,7 +1,6 @@
-import Palette from 'core/palette';
+import { Color, Palette } from 'nidea-colors';
 import styles from './style.module.css';
 import Tile from './Tile';
-import Color from 'core/Color';
 import { mapKey } from 'utils/GenerateColorKey';
 
 type handleColorGenerator = (color: Color) => () => void;

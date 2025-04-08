@@ -1,6 +1,6 @@
 import { Slider, Typography } from 'antd';
-import Factor from 'core/ColorMixer/utils/RandomFactor';
 import styles from './style.module.css';
+import { Factor } from 'nidea-colors/ColorMixer';
 
 type Props = {
   value: Factor;

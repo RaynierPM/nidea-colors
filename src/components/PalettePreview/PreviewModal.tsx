@@ -1,8 +1,8 @@
 import ModalComponent from 'components/common/modal/Modal';
 import Preview from './Preview';
-import Palette from 'core/palette';
 import styles from './styles.module.css';
 import { Button, Divider } from 'antd';
+import { Palette } from 'nidea-colors';
 
 type PreviewModalProps = {
   palette: Palette;

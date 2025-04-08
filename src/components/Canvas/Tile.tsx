@@ -1,4 +1,4 @@
-import Color from 'core/Color';
+import { Color } from 'nidea-colors';
 import TileActions from './TileActions';
 import styles from './style.module.css';
 import { Actions } from './type';

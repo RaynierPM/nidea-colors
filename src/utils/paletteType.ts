@@ -1,4 +1,4 @@
-import { PaletteType } from 'core/types';
+import { PaletteType } from "nidea-colors";
 
 export const paletteTypes = {
   [PaletteType.RANDOM]: 'RANDOM',

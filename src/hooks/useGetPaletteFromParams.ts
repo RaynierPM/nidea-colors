@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
-import Palette from 'core/palette';
-import { InvalidHexColorsJsonError } from 'core/errors/Palette';
+import { Palette } from 'nidea-colors';
+import { InvalidHexColorsJsonError } from 'nidea-colors/errors';
 
 export default function useGetPaletteFromParams() {
   const [visible, setVisible] = useState(false);

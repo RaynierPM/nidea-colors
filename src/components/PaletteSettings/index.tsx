@@ -2,11 +2,9 @@ import { useState } from 'react';
 import styles from './style.module.css';
 import DrawerComponent from 'components/common/drawer/Drawer';
 import { Button, Col, Collapse, Row, Select, Tooltip, Typography } from 'antd';
-import { generatePaletteOptions, PaletteType } from 'core/types';
-import Palette from 'core/palette';
-import Color from 'core/Color';
-import Factor from 'core/ColorMixer/utils/RandomFactor';
 import RangeFactor from 'components/common/Range/RangeFactor';
+import { Color, generatePaletteOptions, Palette, PaletteType } from 'nidea-colors';
+import { Factor } from 'nidea-colors/ColorMixer';
 
 type PaletteSettingsProps = {
   options: generatePaletteOptions;

@@ -1,30 +1,26 @@
 import { useCallback, useState } from 'react';
 import Canvas from './components/Canvas/Canvas';
 import ControlPanel from './components/ControlPanel/ControlPanel';
-import Palette from './core/palette';
 import { toast, Toaster } from 'sonner';
 import useGetPaletteFromParams from './hooks/useGetPaletteFromParams';
-import Color from 'core/Color';
-import {
-  InvalidColorsQuantityError,
-  InvalidParametersError,
-} from 'core/errors/PaletteFactory';
-import PaletteFactory from 'core/PaletteFactory';
-import {
-  generatePaletteOptions,
-  PaletteColorsLimit,
-  PaletteGenerator,
-  PaletteType as PaletteType,
-} from 'core/types';
 import PreviewModal from 'components/PalettePreview/PreviewModal';
 import { clearPaletteUrl } from 'utils/url';
-import { getRandomColor } from 'core/utils/color';
 import PaletteSettings from 'components/PaletteSettings';
+import { Color, generatePaletteOptions, Palette, PaletteFactory, PaletteGenerator, PaletteType } from 'nidea-colors';
+import { InvalidColorsQuantityError, InvalidParametersError } from 'nidea-colors/errors';
+import { getRandomColor } from 'nidea-colors/utils';
 import { paletteTypes } from 'utils/paletteType';
+import { ColorGenerationLimits } from 'common/limits';
 
 const DEFAULT_PALETTE_TYPE = PaletteType.RANDOM;
 
-const DEFAULT_PALETTE = PaletteFactory.getPaletteGenerator()({
+const default_limits: {min: number, max: number} = {
+  min: ColorGenerationLimits.MIN,
+  max: ColorGenerationLimits.MAX,
+}
+
+const DEFAULT_PALETTE = new PaletteFactory({limits: default_limits})
+.getPaletteGenerator()({
   paletteType: DEFAULT_PALETTE_TYPE,
   lockedColors: [],
   colorsQuantity: 4,
@@ -40,7 +36,7 @@ function App() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const paletteGenerator = useCallback<PaletteGenerator>(
-    PaletteFactory.getPaletteGenerator(),
+    new PaletteFactory({limits: default_limits}).getPaletteGenerator(),
     [],
   );
 
@@ -65,7 +61,7 @@ function App() {
 
   function generateAddColor() {
     const len = palette.colors.length;
-    if (len >= PaletteColorsLimit.MAX) {
+    if (len >= default_limits.max) {
       return;
     }
     return () => {
@@ -87,14 +83,14 @@ function App() {
       setPalette(palette.clone());
       setPaletteOptions({
         ...paletteOptions,
-        colorsQuantity: palette.colors.length - 1,
+        colorsQuantity: palette.colors.length,
       });
     };
   }
 
   function generateRemoveColor() {
     const len = palette.colors.length;
-    if (len <= PaletteColorsLimit.MIN) {
+    if (len <= default_limits.min) {
       return;
     }
     return RemoveColor;

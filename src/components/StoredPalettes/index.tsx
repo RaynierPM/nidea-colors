@@ -1,10 +1,10 @@
 import { Button, Drawer, Input, InputRef } from 'antd';
 import styles from './style.module.css';
 import usePaletteLocalStorage from 'hooks/usePaletteLocalStorage';
-import Palette from 'core/palette';
 import PalettesContainer from './PalettesContainer';
 import { ChangeEvent, useRef } from 'react';
 import { toast } from 'sonner';
+import { Palette } from 'nidea-colors';
 
 type props = {
   visible: boolean;

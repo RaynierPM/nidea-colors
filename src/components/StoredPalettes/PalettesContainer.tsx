@@ -1,7 +1,7 @@
 import { Tooltip } from 'antd';
 import styles from './style.module.css';
 import Canvas from 'components/Canvas/Canvas';
-import Palette from 'core/palette';
+import { Palette } from 'nidea-colors';
 
 type Props = {
   palettes: Palette[];
