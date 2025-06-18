@@ -1,4 +1,4 @@
 export enum ColorGenerationLimits {
   MIN = 2,
-  MAX = 6,
+  MAX = 10,
 }
