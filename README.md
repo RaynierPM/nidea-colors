@@ -117,7 +117,7 @@ colorcrafter/
 
 ## 🖼️ Capturas de Pantalla
 
-🌟 **¡Muy pronto!**
+![Nidea colors screen](https://github.com/RaynierPM/nidea-colors/blob/main/readme-images/nidea-colors.png)
 
 ---
 
