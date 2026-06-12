@@ -28,8 +28,8 @@ export default function PreviewModal({
     <ModalComponent
       visible={Boolean(showModal && palette)}
       onClose={closePreview}
-      title="Hey, that's a preview">
-      <p>A friend shared your this palette, check it out!!!</p>
+      title="Palette Preview">
+      <p>Someone shared this palette with you — give it a try.</p>
       <Divider />
       <div className={styles.previewContainer}>
         <Preview palette={palette} />

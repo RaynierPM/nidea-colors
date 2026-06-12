@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './style.module.css';
 import DrawerComponent from 'components/common/drawer/Drawer';
-import { Button, Col, Collapse, Row, Select, Tooltip, Typography } from 'antd';
+import { Button, Select, Tooltip, Typography } from 'antd';
 import RangeFactor from 'components/common/Range/RangeFactor';
 import { Color, generatePaletteOptions, Palette, PaletteType } from 'nidea-colors';
 import { Factor } from 'nidea-colors/ColorMixer';
@@ -147,11 +147,11 @@ export default function PaletteSettings({
         onClose={handleClose}
         title="Palette Settings"
       >
-        <Collapse defaultActiveKey={['scheme']}>
-          <Collapse.Panel header="Basic Settings" key="scheme">
-            <Typography.Title level={4}>
-              Color schemes{' '}
-              <Tooltip title="All palettes are random but you can improve how mix colors 🎨 (Enjoy it 😉)">
+        <div className={styles.drawerContent}>
+          <section className={styles.section}>
+            <Typography.Title level={5} className={styles.sectionTitle}>
+              Color scheme
+              <Tooltip title="Choose how colors relate to each other. Random picks freely; other schemes create harmony from a base color.">
                 <i className="bi bi-question-circle-fill" />
               </Tooltip>
             </Typography.Title>
@@ -160,61 +160,54 @@ export default function PaletteSettings({
               value={options.paletteType}
               onChange={changeScheme}
               style={{ width: '100%' }}
+              size="large"
             />
             {options.paletteType !== PaletteType.RANDOM && (
-              <div className={styles.baseColor}>
-                <Typography.Paragraph
-                  style={{ marginBottom: 0, fontWeight: 'bold' }}
-                >
+              <div className={styles.baseColorSection}>
+                <Typography.Paragraph className={styles.baseColorLabel}>
                   Base color
                 </Typography.Paragraph>
-                <div className={styles.baseColorContainer}>
+                <div className={styles.baseColorRow}>
                   <Select
                     options={getAvailableColors(palette)}
                     value={options.baseColor?.hexColor}
                     onChange={handleBaseColorChange}
-                    style={{ width: '100%', marginTop: 10 }}
-                    placeholder="Select base color"
+                    style={{ flex: 1 }}
+                    placeholder="Select a color"
+                    size="large"
                   />
                   {!options.baseColor && (
-                    <Tooltip title="Base color not selected">
-                      <i
-                        className="bi bi-info-circle-fill"
-                        style={{
-                          color: '#' + Color.generateRandomColor().hexColor,
-                          fontSize: 20,
-                        }}
-                      />
+                    <Tooltip title="Pick a base color from your palette">
+                      <i className="bi bi-info-circle-fill" />
                     </Tooltip>
                   )}
                 </div>
               </div>
             )}
-          </Collapse.Panel>
-          <Collapse.Panel header="Advanced Settings" key="advancedSettings">
-            <div className={styles.box}>
+          </section>
+
+          <section className={styles.section}>
+            <Typography.Title level={5} className={styles.sectionTitle}>
+              Fine-tune
+            </Typography.Title>
+            <div className={styles.card}>
               {options.luminosity ? (
                 <RangeFactor
-                  label="luminosity"
+                  label="Luminosity"
                   value={options.luminosity}
                   onChange={handleLuminosityChange}
                 />
               ) : (
-                <div className={styles.buttonsConfiguration}>
-                  <Button className={styles.widthFull} onClick={addLuminosity}>
-                    Luminosity <i className="bi bi-plus-circle" />
-                  </Button>
-                  <Tooltip
-                    title="Luminosity is percent value thats represent the color's 
-                  brightness. 0 represents black color and 100% its white"
-                  >
+                <button className={styles.addButton} onClick={addLuminosity}>
+                  <span>Luminosity</span>
+                  <Tooltip title="Controls brightness — 0 is black, 100% is white.">
                     <i className="bi bi-info-circle" />
                   </Tooltip>
-                </div>
+                  <i className="bi bi-plus-circle" />
+                </button>
               )}
             </div>
-
-            <div className={styles.box}>
+            <div className={styles.card}>
               {options.saturation ? (
                 <RangeFactor
                   label="Saturation"
@@ -222,47 +215,33 @@ export default function PaletteSettings({
                   onChange={handleSaturationChange}
                 />
               ) : (
-                <div className={styles.buttonsConfiguration}>
-                  <Button className={styles.widthFull} onClick={addSaturation}>
-                    Saturation <i className="bi bi-plus-circle" />
-                  </Button>
-                  <Tooltip
-                    title="Saturation is percent value thats represent the color's 
-                  intensity.0 represents gray color and 100% the most intense color representation"
-                  >
+                <button className={styles.addButton} onClick={addSaturation}>
+                  <span>Saturation</span>
+                  <Tooltip title="Controls color intensity — 0 is gray, 100% is vivid.">
                     <i className="bi bi-info-circle" />
                   </Tooltip>
-                </div>
+                  <i className="bi bi-plus-circle" />
+                </button>
               )}
             </div>
-          </Collapse.Panel>
-        </Collapse>
-        <Typography.Paragraph
-          italic
-          style={{
-            marginTop: 20,
-            border: '1px solid #ccc',
-            padding: '5px',
-            borderRadius: 5,
-          }}
-        >
-          <b>Note: </b>This cromatic circle is based on RGB color model, so the
-          colors generated will be different from the ones you can see on
-          traditional color pickers.
-        </Typography.Paragraph>
-        <Row justify="space-between">
-          <Col span={12}>
+          </section>
+
+          <p className={styles.note}>
+            Based on the RGB color model. Generated colors will differ from
+            traditional color pickers.
+          </p>
+
+          <div className={styles.drawerActions}>
             <Button
               onClick={() => {
                 generateNewPalette();
                 handleClose();
               }}
-              style={{ width: '100%', marginTop: 10, padding: 3 }}
+              size="large"
+              className={styles.primaryButton}
             >
-              Generate new palette <i className="bi bi-arrow-repeat" />
+              Generate <i className="bi bi-arrow-repeat" />
             </Button>
-          </Col>
-          <Col span={12}>
             <Button
               variant="outlined"
               color="danger"
@@ -270,12 +249,13 @@ export default function PaletteSettings({
                 const newOptions = backDefaultOptions(options);
                 updateOptions(newOptions);
               }}
-              style={{ width: '100%', marginTop: 10, padding: 3 }}
+              size="large"
+              className={styles.resetButton}
             >
-              Reset configuration <i className="bi bi-arrow-repeat" />
+              Reset <i className="bi bi-arrow-repeat" />
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </DrawerComponent>
     </>
   );

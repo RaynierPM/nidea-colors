@@ -42,8 +42,8 @@ export default function ControlPanel({
   return (
     <header className={styles.controlPanel}>
       <div className={styles.titleContainer}>
-        <h1>
-          <RandomColorText text={pageTitle} />
+        <h1 className={styles.title}>
+          {pageTitle}
         </h1>
         <p>
           <RandomColorText text={paletteType} />

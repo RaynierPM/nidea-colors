@@ -73,7 +73,7 @@ function App() {
 
   function RemoveColor(color: Color) {
     return () => {
-      paletteOptions.lockedColors.forEach(lc => console.log(lc.hexColor));
+      
       if (
         paletteOptions.lockedColors.some(lc => lc.hexColor === color.hexColor)
       ) {
@@ -155,7 +155,18 @@ function App() {
         options={paletteOptions}
         palette={palette}
       />
-      <Toaster />
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            borderRadius: '12px',
+            background: '#ffffff',
+            color: '#2d2a24',
+            border: '1px solid #e8e2dc',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
+          },
+        }}
+      />
     </>
   );
 }

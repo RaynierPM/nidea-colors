@@ -18,9 +18,7 @@ export default function SharePaletteModal({
       onClose={onClose}
       title="Share Your Color Palette!">
       <p>
-        You have a beautiful palette, and now it's time to let others enjoy it
-        too! Copy the link below and share it with your friends, colleagues, or
-        on social media. Inspire creativity and let your colors shine! 🎨
+        Copy the link below and share this palette with anyone you'd like.
       </p>
       <CopyField text={palettUrl} />
     </ModalComponent>

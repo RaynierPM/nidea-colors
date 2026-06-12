@@ -1,25 +1,24 @@
 .clipboard {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-
-  margin: 5px 0;
-
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  border-radius: 5px;
+  gap: 8px;
+  margin: 8px 0;
+  border: 1px solid var(--border-subtle, #e8e2dc);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--bg-primary, #f5f0eb);
 }
 
 .clipboard p {
   font-size: 14px;
-  color: #333;
-
-  max-width: 80%;
-
+  color: var(--text-primary, #2d2a24);
+  flex: 1;
+  min-width: 0;
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .clipboard .copyButton {
-  max-width: 20%;
+  flex-shrink: 0;
 }

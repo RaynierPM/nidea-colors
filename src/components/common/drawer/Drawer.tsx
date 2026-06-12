@@ -15,7 +15,23 @@ export default function DrawerComponent({
   title,
 }: DrawerProps) {
   return (
-    <Drawer open={open} onClose={onClose} placement="right" title={title}>
+    <Drawer
+      open={open}
+      onClose={onClose}
+      placement="right"
+      title={title}
+      styles={{
+        header: {
+          borderBottom: '1px solid var(--border-subtle, #e8e2dc)',
+          padding: '16px 20px',
+        },
+        body: {
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+        },
+      }}
+    >
       {children}
     </Drawer>
   );
